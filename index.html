@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nitesh Kumar | Data Analyst Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+scroll-behavior:smooth;
+}
+
+header{
+padding:20px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+background:#0f172a;
+z-index:1000;
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#38bdf8;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+}
+
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:50px 8%;
+gap:60px;
+flex-wrap:wrap;
+}
+
+.hero img{
+width:320px;
+height:320px;
+object-fit:cover;
+border-radius:50%;
+border:5px solid #38bdf8;
+}
+
+.hero-text h1{
+font-size:55px;
+}
+
+.hero-text h2{
+color:#38bdf8;
+margin:10px 0;
+}
+
+.btn{
+display:inline-block;
+padding:12px 25px;
+background:#38bdf8;
+color:black;
+font-weight:bold;
+text-decoration:none;
+border-radius:8px;
+margin-top:20px;
+margin-right:10px;
+}
+
+section{
+padding:80px 8%;
+}
+
+.section-title{
+font-size:40px;
+margin-bottom:40px;
+color:#38bdf8;
+text-align:center;
+}
+
+.skills{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.skill-card{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+}
+
+.projects{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+}
+
+.project-card{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+}
+
+.project-card h3{
+color:#38bdf8;
+margin-bottom:10px;
+}
+
+.contact{
+text-align:center;
+}
+
+footer{
+text-align:center;
+padding:20px;
+background:#020617;
+}
+
+.social a{
+color:#38bdf8;
+text-decoration:none;
+display:block;
+margin:10px 0;
+}
+
+@media(max-width:768px){
+.hero-text h1{
+font-size:40px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">Nitesh Kumar</div>
+
+<nav>
+<a href="#about">About</a>
+<a href="#skills">Skills</a>
+<a href="#projects">Projects</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<section class="hero">
+
+<img src="profile.jpg" alt="Nitesh Kumar">
+
+<div class="hero-text">
+<h1>Nitesh Kumar</h1>
+
+<h2>Data Analyst | AI & ML Enthusiast | Python Developer</h2>
+
+<p>
+Turning Data into Insights, Models into Solutions, and Ideas into Impact.
+</p>
+
+<a href="resume.pdf" class="btn">Download Resume</a>
+
+<a href="#projects" class="btn">View Projects</a>
+
+</div>
+</section>
+
+<section id="about">
+
+<h2 class="section-title">About Me</h2>
+
+<p style="text-align:center; max-width:900px; margin:auto;">
+
+I am a BCA Graduate passionate about Data Analytics,
+Machine Learning, Artificial Intelligence and Python Development.
+
+I have worked on projects involving stock prediction,
+customer analytics, IoT systems, dashboard development,
+and machine learning solutions.
+
+My goal is to help organizations make smarter decisions
+through data-driven insights.
+
+</p>
+
+</section>
+
+<section id="skills">
+
+<h2 class="section-title">Skills</h2>
+
+<div class="skills">
+
+<div class="skill-card">
+<h3>Python</h3>
+<p>Data Analysis, Automation, ML</p>
+</div>
+
+<div class="skill-card">
+<h3>SQL</h3>
+<p>Database Querying & Reporting</p>
+</div>
+
+<div class="skill-card">
+<h3>Excel</h3>
+<p>Advanced Analytics & Dashboards</p>
+</div>
+
+<div class="skill-card">
+<h3>Power BI</h3>
+<p>Interactive Business Dashboards</p>
+</div>
+
+<div class="skill-card">
+<h3>Machine Learning</h3>
+<p>Prediction & Classification Models</p>
+</div>
+
+<div class="skill-card">
+<h3>Data Visualization</h3>
+<p>Insights & Storytelling</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="projects">
+
+<h2 class="section-title">Featured Projects</h2>
+
+<div class="projects">
+
+<div class="project-card">
+<h3>Sales MIS Dashboard</h3>
+<p>Excel Dashboard for business reporting and KPI tracking.</p>
+</div>
+
+<div class="project-card">
+<h3>Customer Shopping Behavior Analysis</h3>
+<p>Customer purchasing pattern analysis.</p>
+</div>
+
+<div class="project-card">
+<h3>IoT Smart Water Tank Monitoring</h3>
+<p>IoT-based water level monitoring solution.</p>
+</div>
+
+<div class="project-card">
+<h3>Cars Dataset Prediction</h3>
+<p>Machine learning prediction project.</p>
+</div>
+
+<div class="project-card">
+<h3>Apple Stock Analysis</h3>
+<p>Financial data analytics project.</p>
+</div>
+
+<div class="project-card">
+<h3>Stock Price Prediction</h3>
+<p>LSTM and ML-based stock forecasting.</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="contact">
+
+<h2 class="section-title">Contact Me</h2>
+
+<div class="contact">
+
+<p>Email: ns0762005@gmail.com</p>
+
+<p>Phone: +91 9650410697</p>
+
+<div class="social">
+
+<a href="https://github.com/Nitesh-Datascience">
+GitHub
+</a>
+
+<a href="https://www.linkedin.com/in/niteshkumar-codlytic">
+LinkedIn
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Nitesh Kumar | Data Analyst Portfolio
+</footer>
+
+</body>
+</html>
