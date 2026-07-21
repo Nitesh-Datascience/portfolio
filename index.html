@@ -1,315 +1,1684 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nitesh Kumar | Data Analyst Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Nitesh Kumar's data analytics portfolio featuring Python, SQL, Excel, Power BI, machine learning, AI, and Streamlit projects."
+  />
+  <meta name="author" content="Nitesh Kumar" />
+  <meta name="theme-color" content="#08111f" />
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Nitesh Kumar | Data Analyst Portfolio</title>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
 
-body{
-background:#0f172a;
-color:white;
-scroll-behavior:smooth;
-}
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0b1728;
+      --card: rgba(15, 30, 51, 0.88);
+      --card-strong: #10213a;
+      --primary: #38bdf8;
+      --primary-2: #22d3ee;
+      --text: #f8fafc;
+      --muted: #a9b7ca;
+      --border: rgba(148, 163, 184, 0.2);
+      --success: #34d399;
+      --shadow: 0 22px 55px rgba(0, 0, 0, 0.28);
+      --radius: 20px;
+      --max-width: 1180px;
+    }
 
-header{
-padding:20px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-position:sticky;
-top:0;
-background:#0f172a;
-z-index:1000;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-.logo{
-font-size:24px;
-font-weight:700;
-color:#38bdf8;
-}
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
 
-nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
-}
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.14), transparent 28%),
+        radial-gradient(circle at 88% 20%, rgba(34, 211, 238, 0.09), transparent 25%),
+        linear-gradient(180deg, #07111f 0%, #091525 55%, #07111f 100%);
+      font-family: "Poppins", sans-serif;
+      line-height: 1.7;
+    }
 
-.hero{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:50px 8%;
-gap:60px;
-flex-wrap:wrap;
-}
+    img {
+      max-width: 100%;
+    }
 
-.hero img{
-width:320px;
-height:320px;
-object-fit:cover;
-border-radius:50%;
-border:5px solid #38bdf8;
-}
+    a {
+      color: inherit;
+    }
 
-.hero-text h1{
-font-size:55px;
-}
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
 
-.hero-text h2{
-color:#38bdf8;
-margin:10px 0;
-}
+    .container {
+      width: min(92%, var(--max-width));
+      margin-inline: auto;
+    }
 
-.btn{
-display:inline-block;
-padding:12px 25px;
-background:#38bdf8;
-color:black;
-font-weight:bold;
-text-decoration:none;
-border-radius:8px;
-margin-top:20px;
-margin-right:10px;
-}
+    .section {
+      padding: 92px 0;
+    }
 
-section{
-padding:80px 8%;
-}
+    .section-heading {
+      max-width: 760px;
+      margin: 0 auto 44px;
+      text-align: center;
+    }
 
-.section-title{
-font-size:40px;
-margin-bottom:40px;
-color:#38bdf8;
-text-align:center;
-}
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
 
-.skills{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
+    .section-title {
+      margin-bottom: 14px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.2;
+    }
 
-.skill-card{
-background:#1e293b;
-padding:20px;
-border-radius:15px;
-}
+    .section-subtitle {
+      color: var(--muted);
+    }
 
-.projects{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:25px;
-}
+    .gradient-text {
+      color: var(--primary);
+      background: linear-gradient(90deg, #38bdf8, #22d3ee, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-.project-card{
-background:#1e293b;
-padding:20px;
-border-radius:15px;
-}
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+      background: rgba(7, 17, 31, 0.82);
+      backdrop-filter: blur(18px);
+    }
 
-.project-card h3{
-color:#38bdf8;
-margin-bottom:10px;
-}
+    .navbar {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
 
-.contact{
-text-align:center;
-}
+    .logo {
+      color: var(--text);
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
 
-footer{
-text-align:center;
-padding:20px;
-background:#020617;
-}
+    .logo span {
+      color: var(--primary);
+    }
 
-.social a{
-color:#38bdf8;
-text-decoration:none;
-display:block;
-margin:10px 0;
-}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      list-style: none;
+    }
 
-@media(max-width:768px){
-.hero-text h1{
-font-size:40px;
-}
-}
-</style>
+    .nav-links a {
+      color: #dbe8f7;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .menu-toggle {
+      display: none;
+      padding: 8px;
+      border: 0;
+      color: var(--text);
+      background: transparent;
+      cursor: pointer;
+      font-size: 1.45rem;
+    }
+
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      color: #03111c;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.22);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      border-color: rgba(56, 189, 248, 0.38);
+      background: rgba(56, 189, 248, 0.07);
+    }
+
+    .btn-small {
+      min-height: 42px;
+      padding: 10px 16px;
+      font-size: 0.88rem;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: calc(100vh - 74px);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 58px;
+      padding: 72px 0;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 13px;
+      border: 1px solid rgba(52, 211, 153, 0.32);
+      border-radius: 999px;
+      color: #b7f7dc;
+      background: rgba(52, 211, 153, 0.08);
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 5px rgba(52, 211, 153, 0.12);
+    }
+
+    .hero h1 {
+      margin-top: 20px;
+      font-size: clamp(3rem, 7vw, 5.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+    }
+
+    .hero h2 {
+      margin-top: 16px;
+      color: #d7e3f2;
+      font-size: clamp(1.25rem, 2.3vw, 1.85rem);
+      font-weight: 500;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .hero-stat {
+      min-width: 145px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(15, 30, 51, 0.68);
+    }
+
+    .hero-stat strong {
+      display: block;
+      color: var(--primary);
+      font-size: 1.35rem;
+    }
+
+    .hero-stat span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .profile-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-glow {
+      position: absolute;
+      inset: 8% 5%;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.22);
+      filter: blur(55px);
+    }
+
+    .profile-card {
+      position: relative;
+      width: min(390px, 92vw);
+      padding: 18px;
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 34px;
+      background: linear-gradient(145deg, rgba(14, 30, 52, 0.97), rgba(8, 18, 33, 0.95));
+      box-shadow: var(--shadow);
+      transform: rotate(1.5deg);
+    }
+
+    .profile-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1.08;
+      object-fit: cover;
+      border-radius: 25px;
+      background: #0c1a2d;
+    }
+
+    .profile-fallback {
+      display: none;
+      place-items: center;
+      width: 100%;
+      aspect-ratio: 1 / 1.08;
+      border-radius: 25px;
+      color: var(--primary);
+      background:
+        linear-gradient(135deg, rgba(56, 189, 248, 0.13), rgba(34, 211, 238, 0.05)),
+        #0c1a2d;
+      font-size: 5rem;
+      font-weight: 800;
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 34px;
+    }
+
+    .glass-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .about-copy {
+      padding: 34px;
+    }
+
+    .about-copy p {
+      color: var(--muted);
+    }
+
+    .about-copy p + p {
+      margin-top: 16px;
+    }
+
+    .quick-info {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 24px;
+    }
+
+    .info-item {
+      padding: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 14px;
+      background: rgba(7, 17, 31, 0.5);
+    }
+
+    .info-item span {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .info-item strong {
+      font-size: 0.97rem;
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .skill-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 185px;
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(16, 33, 58, 0.94), rgba(10, 22, 39, 0.92));
+      transition:
+        transform 0.28s ease,
+        border-color 0.28s ease;
+    }
+
+    .skill-card::after {
+      content: "";
+      position: absolute;
+      right: -30px;
+      bottom: -45px;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .skill-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(56, 189, 248, 0.48);
+    }
+
+    .skill-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      color: #06111d;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      font-weight: 800;
+    }
+
+    .skill-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.08rem;
+    }
+
+    .skill-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(15, 30, 51, 0.97), rgba(10, 22, 39, 0.95));
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+      transition:
+        transform 0.28s ease,
+        border-color 0.28s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+
+    .project-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 22px 0;
+    }
+
+    .project-number {
+      color: rgba(148, 163, 184, 0.45);
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .project-badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #bdefff;
+      background: rgba(56, 189, 248, 0.1);
+      font-size: 0.73rem;
+      font-weight: 700;
+    }
+
+    .project-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 20px 22px 24px;
+    }
+
+    .project-card h3 {
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-size: 1.16rem;
+      line-height: 1.35;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-size: 0.91rem;
+    }
+
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tech-list span {
+      padding: 5px 9px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 999px;
+      color: #c8d5e6;
+      background: rgba(7, 17, 31, 0.48);
+      font-size: 0.72rem;
+    }
+
+    .project-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 22px;
+    }
+
+    /* GitHub Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .stats-card {
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      padding: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(15, 30, 51, 0.76);
+    }
+
+    .stats-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .stats-card-wide {
+      grid-column: 1 / -1;
+    }
+
+    .stats-fallback {
+      display: none;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .stats-fallback h3 {
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .stats-fallback p {
+      color: var(--muted);
+    }
+
+    /* Feedback */
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 28px;
+    }
+
+    .feedback-copy {
+      padding: 32px;
+    }
+
+    .feedback-copy h3 {
+      margin-bottom: 12px;
+      font-size: 1.6rem;
+    }
+
+    .feedback-copy p {
+      color: var(--muted);
+    }
+
+    .feedback-points {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .feedback-point {
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      color: #dce8f6;
+    }
+
+    .feedback-point span {
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .feedback-form {
+      padding: 30px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: #e5edf8;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 12px;
+      outline: none;
+      color: var(--text);
+      background: rgba(7, 17, 31, 0.74);
+      transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    input,
+    select {
+      height: 48px;
+      padding: 0 14px;
+    }
+
+    textarea {
+      min-height: 145px;
+      padding: 14px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.11);
+    }
+
+    select option {
+      color: #111827;
+    }
+
+    .form-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .form-status {
+      display: none;
+      margin-top: 15px;
+      padding: 12px 14px;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      border-radius: 10px;
+      color: #baf7dd;
+      background: rgba(52, 211, 153, 0.08);
+      font-size: 0.88rem;
+    }
+
+    /* Contact */
+    .contact-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 28px;
+      padding: 34px;
+    }
+
+    .contact-card p {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 28px 0;
+      border-top: 1px solid rgba(148, 163, 184, 0.14);
+      color: var(--muted);
+      text-align: center;
+      background: rgba(3, 10, 20, 0.58);
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.65s ease,
+        transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .about-grid,
+      .feedback-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        text-align: center;
+      }
+
+      .hero p,
+      .hero .btn-row,
+      .hero-stats {
+        margin-inline: auto;
+        justify-content: center;
+      }
+
+      .profile-wrap {
+        order: -1;
+      }
+
+      .profile-card {
+        width: min(330px, 82vw);
+      }
+
+      .skills-grid,
+      .projects-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 74px;
+        left: 4%;
+        right: 4%;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: #0b1728;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .skills-grid,
+      .projects-grid,
+      .stats-grid,
+      .form-grid,
+      .quick-info {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-card-wide {
+        grid-column: auto;
+      }
+
+      .section {
+        padding: 74px 0;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 52px 0 74px;
+      }
+
+      .contact-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .contact-links {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .btn {
+        width: 100%;
+      }
+
+      .hero-stat {
+        flex: 1 1 100%;
+      }
+
+      .about-copy,
+      .feedback-copy,
+      .feedback-form,
+      .contact-card {
+        padding: 24px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="#home" class="logo">Nitesh<span>.</span></a>
 
-<header>
-<div class="logo">Nitesh Kumar</div>
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
 
-<nav>
-<a href="#about">About</a>
-<a href="#skills">Skills</a>
-<a href="#projects">Projects</a>
-<a href="#contact">Contact</a>
-</nav>
-</header>
+      <nav aria-label="Main navigation">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#github">GitHub</a></li>
+          <li><a href="#feedback">Feedback</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-<section class="hero">
+  <main>
+    <section class="container hero" id="home">
+      <div class="hero-content reveal">
+        <div class="hero-badge">
+          <span class="status-dot"></span>
+          Open to Data Analyst & MIS opportunities
+        </div>
 
-<img src="profile.jpg" alt="Nitesh Kumar">
+        <h1>
+          Hi, I’m <span class="gradient-text">Nitesh Kumar</span>
+        </h1>
 
-<div class="hero-text">
-<h1>Nitesh Kumar</h1>
+        <h2>Data Analyst | Python | SQL | Excel | Power BI | AI & ML</h2>
 
-<h2>Data Analyst | AI & ML Enthusiast | Python Developer</h2>
+        <p>
+          I transform raw data into dashboards, predictive models, and actionable
+          business insights. My work combines analytics, machine learning, data
+          visualization, and practical problem-solving.
+        </p>
 
-<p>
-Turning Data into Insights, Models into Solutions, and Ideas into Impact.
-</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>20+</strong>
+            <span>GitHub repositories</span>
+          </div>
+          <div class="hero-stat">
+            <strong>2</strong>
+            <span>Live Streamlit applications</span>
+          </div>
+          <div class="hero-stat">
+            <strong>6+</strong>
+            <span>Core analytics tools</span>
+          </div>
+        </div>
 
-<a href="resume.pdf" class="btn">Download Resume</a>
+        <div class="btn-row">
+          <a href="resume.pdf" class="btn btn-primary" download>Download Resume</a>
+          <a href="#projects" class="btn btn-secondary">Explore Projects</a>
+          <a
+            href="https://github.com/Nitesh-Datascience"
+            class="btn btn-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub Profile
+          </a>
+        </div>
+      </div>
 
-<a href="#projects" class="btn">View Projects</a>
+      <div class="profile-wrap reveal">
+        <div class="profile-glow"></div>
+        <div class="profile-card">
+          <img
+            id="profileImage"
+            src="profile.jpg"
+            alt="Portrait of Nitesh Kumar"
+            onerror="showProfileFallback()"
+          />
+          <div class="profile-fallback" id="profileFallback" aria-label="Nitesh Kumar initials">
+            NK
+          </div>
+        </div>
+      </div>
+    </section>
 
-</div>
-</section>
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">My Story</span>
+          <h2 class="section-title">About Me</h2>
+          <p class="section-subtitle">
+            A BCA graduate building practical, business-focused solutions with data.
+          </p>
+        </div>
 
-<section id="about">
+        <div class="about-grid">
+          <article class="glass-card about-copy reveal">
+            <p>
+              I am a <strong>BCA graduate</strong> passionate about Data Analytics,
+              Data Science, Machine Learning, Artificial Intelligence, and Python
+              development.
+            </p>
+            <p>
+              I have worked on projects involving supply-chain analytics, customer
+              churn, stock prediction, IoT monitoring, business dashboards, privacy
+              technology, restaurant analytics, and deep learning.
+            </p>
+            <p>
+              My goal is to help teams make faster and smarter decisions through
+              reliable analysis, clear visualizations, and measurable insights.
+            </p>
+          </article>
 
-<h2 class="section-title">About Me</h2>
+          <div class="glass-card quick-info reveal">
+            <div class="info-item">
+              <span>Education</span>
+              <strong>Bachelor of Computer Applications</strong>
+            </div>
+            <div class="info-item">
+              <span>Location</span>
+              <strong>India</strong>
+            </div>
+            <div class="info-item">
+              <span>Target Roles</span>
+              <strong>Data Analyst / MIS Executive</strong>
+            </div>
+            <div class="info-item">
+              <span>Primary Focus</span>
+              <strong>Analytics & Business Intelligence</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<p style="text-align:center; max-width:900px; margin:auto;">
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Capabilities</span>
+          <h2 class="section-title">Skills & Tools</h2>
+          <p class="section-subtitle">
+            A practical stack for data cleaning, analysis, reporting, visualization,
+            application development, and predictive modelling.
+          </p>
+        </div>
 
-I am a BCA Graduate passionate about Data Analytics,
-Machine Learning, Artificial Intelligence and Python Development.
+        <div class="skills-grid">
+          <article class="skill-card reveal">
+            <div class="skill-icon">Py</div>
+            <h3>Python</h3>
+            <p>Pandas, NumPy, automation, exploratory analysis, data pipelines, and application logic.</p>
+          </article>
 
-I have worked on projects involving stock prediction,
-customer analytics, IoT systems, dashboard development,
-and machine learning solutions.
+          <article class="skill-card reveal">
+            <div class="skill-icon">SQL</div>
+            <h3>SQL</h3>
+            <p>Data extraction, joins, aggregations, KPI reporting, and business queries.</p>
+          </article>
 
-My goal is to help organizations make smarter decisions
-through data-driven insights.
+          <article class="skill-card reveal">
+            <div class="skill-icon">XL</div>
+            <h3>Excel</h3>
+            <p>Advanced formulas, PivotTables, MIS reporting, data cleaning, and dashboards.</p>
+          </article>
 
-</p>
+          <article class="skill-card reveal">
+            <div class="skill-icon">BI</div>
+            <h3>Power BI</h3>
+            <p>Interactive dashboards, data modelling, DAX measures, and management reporting.</p>
+          </article>
 
-</section>
+          <article class="skill-card reveal">
+            <div class="skill-icon">ML</div>
+            <h3>Machine Learning</h3>
+            <p>Classification, regression, forecasting, model evaluation, and feature engineering.</p>
+          </article>
 
-<section id="skills">
+          <article class="skill-card reveal">
+            <div class="skill-icon">DV</div>
+            <h3>Data Visualization</h3>
+            <p>Matplotlib, Plotly, storytelling, executive charts, and insight communication.</p>
+          </article>
 
-<h2 class="section-title">Skills</h2>
+          <article class="skill-card reveal">
+            <div class="skill-icon">ST</div>
+            <h3>Streamlit</h3>
+            <p>Interactive analytics applications, filters, KPI cards, and cloud deployment.</p>
+          </article>
 
-<div class="skills">
+          <article class="skill-card reveal">
+            <div class="skill-icon">AI</div>
+            <h3>AI & Deep Learning</h3>
+            <p>LSTM, transfer learning, ResNet-50, model experimentation, and AI prototypes.</p>
+          </article>
 
-<div class="skill-card">
-<h3>Python</h3>
-<p>Data Analysis, Automation, ML</p>
-</div>
+          <article class="skill-card reveal">
+            <div class="skill-icon">GH</div>
+            <h3>Git & GitHub</h3>
+            <p>Version control, repository management, documentation, and GitHub Pages deployment.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-<div class="skill-card">
-<h3>SQL</h3>
-<p>Database Querying & Reporting</p>
-</div>
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Selected Work</span>
+          <h2 class="section-title">Featured Projects</h2>
+          <p class="section-subtitle">
+            Live applications and repositories that demonstrate analytics,
+            machine learning, dashboards, AI, and software development.
+          </p>
+        </div>
 
-<div class="skill-card">
-<h3>Excel</h3>
-<p>Advanced Analytics & Dashboards</p>
-</div>
+        <div class="projects-grid">
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-number">01</span>
+              <span class="project-badge">Live App</span>
+            </div>
+            <div class="project-content">
+              <h3>APL Logistics Analytics</h3>
+              <p>
+                Delivery performance, delay-risk, regional bottleneck, shipping-mode,
+                and logistics-efficiency analysis for global supply-chain operations.
+              </p>
+              <div class="tech-list">
+                <span>Python</span><span>Streamlit</span><span>Pandas</span><span>Analytics</span>
+              </div>
+              <div class="project-actions">
+                <a
+                  class="btn btn-primary btn-small"
+                  href="https://https---appcom-nitesh-datascience-apllogistics-464avyacan3btze.streamlit.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Live Demo</a>
+                <a
+                  class="btn btn-secondary btn-small"
+                  href="https://github.com/Nitesh-Datascience/APL_Logistics"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Repository</a>
+              </div>
+            </div>
+          </article>
 
-<div class="skill-card">
-<h3>Power BI</h3>
-<p>Interactive Business Dashboards</p>
-</div>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-number">02</span>
+              <span class="project-badge">Live App</span>
+            </div>
+            <div class="project-content">
+              <h3>PrivyScan AI</h3>
+              <p>
+                AI-powered privacy and risk-scanning prototype designed to identify
+                potentially sensitive content and support safer digital workflows.
+              </p>
+              <div class="tech-list">
+                <span>AI</span><span>Python</span><span>Streamlit</span><span>Privacy</span>
+              </div>
+              <div class="project-actions">
+                <a
+                  class="btn btn-primary btn-small"
+                  href="https://privyscan-ai-starter-afe9ltswbslgt9vkczfvxx.streamlit.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Live Demo</a>
+                <a
+                  class="btn btn-secondary btn-small"
+                  href="https://github.com/Nitesh-Datascience/PrivyScan-AI-Starter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Repository</a>
+              </div>
+            </div>
+          </article>
 
-<div class="skill-card">
-<h3>Machine Learning</h3>
-<p>Prediction & Classification Models</p>
-</div>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-number">03</span>
+              <span class="project-badge">Analytics</span>
+            </div>
+            <div class="project-content">
+              <h3>Care Transition Efficiency Analytics</h3>
+              <p>
+                Operational analysis of transfer efficiency, inflow, discharge,
+                backlog accumulation, placement outcomes, and bottleneck periods.
+              </p>
+              <div class="tech-list">
+                <span>Python</span><span>Streamlit</span><span>KPI</span><span>Operations</span>
+              </div>
+              <div class="project-actions">
+                <a
+                  class="btn btn-secondary btn-small"
+                  href="https://github.com/Nitesh-Datascience/care-transition-efficiency-analytics"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Repository</a>
+              </div>
+            </div>
+          </article>
 
-<div class="skill-card">
-<h3>Data Visualization</h3>
-<p>Insights & Storytelling</p>
-</div>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-number">04</span>
+              <span class="project-badge">Excel</span>
+            </div>
+            <div class="project-content">
+              <h3>Sales MIS Dashboard</h3>
+              <p>
+                Excel-based business reporting solution for sales, profit, regional
+                performance, KPI tracking, and management decision support.
+              </p>
+              <div class="tech-list">
+                <span>Excel</span><span>MIS</span><span>Dashboard</span><span>KPI</span>
+              </div>
+              <div class="project-actions">
+                <a
+                  class="btn btn-secondary btn-small"
+                  href="https://github.com/Nitesh-Datascience/Sales-MIS-Dashboard-Project-using-Excel"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Repository</a>
+              </div>
+            </div>
+          </article>
 
-</div>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-number">05</span>
+              <span class="project-badge">ML</span>
+            </div>
+            <div class="project-content">
+              <h3>NIFTY Prediction Using LSTM & ML</h3>
+              <p>
+                Historical market analysis and forecasting project using LSTM and
+                machine-learning algorithms on NIFTY data.
+              </p>
+              <div class="tech-list">
+                <span>LSTM</span><span>Machine Learning</span><span>Python</span><span>Time Series</span>
+              </div>
+              <div class="project-actions">
+                <a
+                  class="btn btn-secondary btn-small"
+                  href="https://github.com/Nitesh-Datascience/NIFTY-PREDICTION-USING-LSTM-AND-MACHINE-LEARNING-ALGORITHMS-FROM-2001-TO-12TH-JULY-2024"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Repository</a>
+              </div>
+            </div>
+          </article>
 
-</section>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-number">06</span>
+              <span class="project-badge">Customer Analytics</span>
+            </div>
+            <div class="project-content">
+              <h3>Telecom Customer Churn</h3>
+              <p>
+                Churn analysis focused on customer characteristics, risk patterns,
+                service usage, segmentation, and retention opportunities.
+              </p>
+              <div class="tech-list">
+                <span>Python</span><span>EDA</span><span>Churn</span><span>Business Insights</span>
+              </div>
+              <div class="project-actions">
+                <a
+                  class="btn btn-secondary btn-small"
+                  href="https://github.com/Nitesh-Datascience/Telcom_Customer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Repository</a>
+              </div>
+            </div>
+          </article>
 
-<section id="projects">
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-number">07</span>
+              <span class="project-badge">Behavior Analytics</span>
+            </div>
+            <div class="project-content">
+              <h3>Customer Shopping Behavior Analysis</h3>
+              <p>
+                Analysis of customer purchasing behaviour, trends, segments, and
+                product preferences for better commercial decisions.
+              </p>
+              <div class="tech-list">
+                <span>Python</span><span>Pandas</span><span>EDA</span><span>Retail</span>
+              </div>
+              <div class="project-actions">
+                <a
+                  class="btn btn-secondary btn-small"
+                  href="https://github.com/Nitesh-Datascience/Customer-Shopping-Behavior-Analysis"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Repository</a>
+              </div>
+            </div>
+          </article>
 
-<h2 class="section-title">Featured Projects</h2>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-number">08</span>
+              <span class="project-badge">IoT</span>
+            </div>
+            <div class="project-content">
+              <h3>Smart Water Tank Monitoring</h3>
+              <p>
+                IoT-based monitoring system for tracking water levels, reducing
+                overflow, and supporting smarter water management.
+              </p>
+              <div class="tech-list">
+                <span>IoT</span><span>Sensors</span><span>Automation</span><span>Monitoring</span>
+              </div>
+              <div class="project-actions">
+                <a
+                  class="btn btn-secondary btn-small"
+                  href="https://github.com/Nitesh-Datascience/IOT-BASED-Smart-Water-Tank-Monitoring-System"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Repository</a>
+              </div>
+            </div>
+          </article>
 
-<div class="projects">
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-number">09</span>
+              <span class="project-badge">Deep Learning</span>
+            </div>
+            <div class="project-content">
+              <h3>Transfer Learning with ResNet-50</h3>
+              <p>
+                Deep-learning project using transfer learning and ResNet-50 for
+                efficient image-classification experimentation.
+              </p>
+              <div class="tech-list">
+                <span>ResNet-50</span><span>Transfer Learning</span><span>AI</span><span>Python</span>
+              </div>
+              <div class="project-actions">
+                <a
+                  class="btn btn-secondary btn-small"
+                  href="https://github.com/Nitesh-Datascience/Transfer-Learning-Resnet-50"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Repository</a>
+              </div>
+            </div>
+          </article>
+        </div>
 
-<div class="project-card">
-<h3>Sales MIS Dashboard</h3>
-<p>Excel Dashboard for business reporting and KPI tracking.</p>
-</div>
+        <div class="btn-row" style="justify-content:center; margin-top:34px;">
+          <a
+            class="btn btn-primary"
+            href="https://github.com/Nitesh-Datascience?tab=repositories"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View All GitHub Repositories
+          </a>
+        </div>
+      </div>
+    </section>
 
-<div class="project-card">
-<h3>Customer Shopping Behavior Analysis</h3>
-<p>Customer purchasing pattern analysis.</p>
-</div>
+    <section class="section" id="github">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Developer Activity</span>
+          <h2 class="section-title">GitHub Statistics</h2>
+          <p class="section-subtitle">
+            These cards use public third-party services. A profile link is displayed
+            automatically when a service is temporarily unavailable.
+          </p>
+        </div>
 
-<div class="project-card">
-<h3>IoT Smart Water Tank Monitoring</h3>
-<p>IoT-based water level monitoring solution.</p>
-</div>
+        <div class="stats-grid">
+          <div class="stats-card reveal">
+            <img
+              src="https://github-readme-stats.vercel.app/api?username=Nitesh-Datascience&show_icons=true&theme=tokyonight&hide_border=true&include_all_commits=true&cache_seconds=86400"
+              alt="Nitesh Kumar GitHub statistics"
+              loading="lazy"
+              onerror="showStatsFallback(this)"
+            />
+            <div class="stats-fallback">
+              <h3>GitHub Stats Temporarily Unavailable</h3>
+              <p>Open the GitHub profile to view repositories and recent activity.</p>
+              <a
+                class="btn btn-primary btn-small"
+                href="https://github.com/Nitesh-Datascience"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Open GitHub</a>
+            </div>
+          </div>
 
-<div class="project-card">
-<h3>Cars Dataset Prediction</h3>
-<p>Machine learning prediction project.</p>
-</div>
+          <div class="stats-card reveal">
+            <img
+              src="https://github-readme-stats.vercel.app/api/top-langs/?username=Nitesh-Datascience&layout=compact&theme=tokyonight&hide_border=true&langs_count=8&cache_seconds=86400"
+              alt="Nitesh Kumar most used programming languages"
+              loading="lazy"
+              onerror="showStatsFallback(this)"
+            />
+            <div class="stats-fallback">
+              <h3>Language Card Temporarily Unavailable</h3>
+              <p>Browse the repositories to see the complete technical stack.</p>
+              <a
+                class="btn btn-primary btn-small"
+                href="https://github.com/Nitesh-Datascience?tab=repositories"
+                target="_blank"
+                rel="noopener noreferrer"
+              >View Repositories</a>
+            </div>
+          </div>
 
-<div class="project-card">
-<h3>Apple Stock Analysis</h3>
-<p>Financial data analytics project.</p>
-</div>
+          <div class="stats-card stats-card-wide reveal">
+            <img
+              src="https://streak-stats.demolab.com?user=Nitesh-Datascience&theme=tokyonight&hide_border=true"
+              alt="Nitesh Kumar GitHub contribution streak"
+              loading="lazy"
+              onerror="showStatsFallback(this)"
+            />
+            <div class="stats-fallback">
+              <h3>Contribution Streak Temporarily Unavailable</h3>
+              <p>The external contribution service may be rate-limited. Your portfolio remains available.</p>
+              <a
+                class="btn btn-primary btn-small"
+                href="https://github.com/Nitesh-Datascience"
+                target="_blank"
+                rel="noopener noreferrer"
+              >View Activity</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="project-card">
-<h3>Stock Price Prediction</h3>
-<p>LSTM and ML-based stock forecasting.</p>
-</div>
+    <section class="section" id="feedback">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Help Me Improve</span>
+          <h2 class="section-title">Portfolio Feedback</h2>
+          <p class="section-subtitle">
+            Share practical feedback about my projects, design, documentation, or
+            suitability for professional opportunities.
+          </p>
+        </div>
 
-</div>
+        <div class="feedback-grid">
+          <aside class="glass-card feedback-copy reveal">
+            <h3>Your feedback matters.</h3>
+            <p>
+              This static GitHub Pages form opens your email application with a
+              pre-filled message, so no backend or database is required.
+            </p>
 
-</section>
+            <div class="feedback-points">
+              <div class="feedback-point">
+                <span>✓</span>
+                <div>Review project quality and business relevance.</div>
+              </div>
+              <div class="feedback-point">
+                <span>✓</span>
+                <div>Suggest improvements for design and user experience.</div>
+              </div>
+              <div class="feedback-point">
+                <span>✓</span>
+                <div>Share internship, freelance, collaboration, or job opportunities.</div>
+              </div>
+            </div>
+          </aside>
 
-<section id="contact">
+          <form class="glass-card feedback-form reveal" id="feedbackForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="feedbackName">Your name *</label>
+                <input
+                  id="feedbackName"
+                  name="name"
+                  type="text"
+                  placeholder="Enter your name"
+                  required
+                />
+              </div>
 
-<h2 class="section-title">Contact Me</h2>
+              <div class="form-group">
+                <label for="feedbackEmail">Your email</label>
+                <input
+                  id="feedbackEmail"
+                  name="email"
+                  type="email"
+                  placeholder="name@example.com"
+                />
+              </div>
 
-<div class="contact">
+              <div class="form-group">
+                <label for="feedbackType">Feedback type *</label>
+                <select id="feedbackType" name="type" required>
+                  <option value="">Select an option</option>
+                  <option>Portfolio Design</option>
+                  <option>Project Quality</option>
+                  <option>Documentation</option>
+                  <option>Job Opportunity</option>
+                  <option>Collaboration</option>
+                  <option>Other</option>
+                </select>
+              </div>
 
-<p>Email: ns0762005@gmail.com</p>
+              <div class="form-group">
+                <label for="feedbackRating">Portfolio rating *</label>
+                <select id="feedbackRating" name="rating" required>
+                  <option value="">Choose rating</option>
+                  <option>5 - Excellent</option>
+                  <option>4 - Very Good</option>
+                  <option>3 - Good</option>
+                  <option>2 - Needs Improvement</option>
+                  <option>1 - Major Improvement Needed</option>
+                </select>
+              </div>
 
-<p>Phone: +91 9650410697</p>
+              <div class="form-group full">
+                <label for="feedbackProject">Project reviewed</label>
+                <input
+                  id="feedbackProject"
+                  name="project"
+                  type="text"
+                  placeholder="Example: APL Logistics Analytics"
+                />
+              </div>
 
-<div class="social">
+              <div class="form-group full">
+                <label for="feedbackMessage">Your feedback *</label>
+                <textarea
+                  id="feedbackMessage"
+                  name="message"
+                  placeholder="Write what you liked and what I should improve..."
+                  required
+                ></textarea>
+              </div>
 
-<a href="https://github.com/Nitesh-Datascience">
-GitHub
-</a>
+              <div class="form-group full">
+                <button class="btn btn-primary" type="submit">Send Feedback by Email</button>
+                <p class="form-note">
+                  Your default email application will open with the feedback already prepared.
+                </p>
+                <div class="form-status" id="formStatus">
+                  Your feedback message has been prepared. Please send it from your email application.
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
 
-<a href="https://www.linkedin.com/in/niteshkumar-codlytic">
-LinkedIn
-</a>
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="glass-card contact-card reveal">
+          <div>
+            <span class="eyebrow">Let’s Connect</span>
+            <h2>Have a role, project, or collaboration in mind?</h2>
+            <p>
+              Email: ns0762005@gmail.com &nbsp; | &nbsp; Phone: +91 9650410697
+            </p>
+          </div>
 
-</div>
+          <div class="contact-links">
+            <a
+              href="mailto:ns0762005@gmail.com"
+              class="btn btn-primary"
+            >Email Me</a>
+            <a
+              href="https://www.linkedin.com/in/niteshkumar-codlytic"
+              class="btn btn-secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >LinkedIn</a>
+            <a
+              href="https://github.com/Nitesh-Datascience"
+              class="btn btn-secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-</div>
+  <footer>
+    <div class="container">
+      © <span id="currentYear"></span> Nitesh Kumar · Data Analyst Portfolio ·
+      <a href="#home">Back to top</a>
+    </div>
+  </footer>
 
-</section>
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
 
-<footer>
-© 2026 Nitesh Kumar | Data Analyst Portfolio
-</footer>
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.textContent = isOpen ? "✕" : "☰";
+    });
 
+    document.querySelectorAll(".nav-links a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.textContent = "☰";
+      });
+    });
+
+    function showProfileFallback() {
+      const image = document.getElementById("profileImage");
+      const fallback = document.getElementById("profileFallback");
+
+      image.style.display = "none";
+      fallback.style.display = "grid";
+    }
+
+    function showStatsFallback(image) {
+      image.style.display = "none";
+
+      const fallback = image.parentElement.querySelector(".stats-fallback");
+      if (fallback) {
+        fallback.style.display = "block";
+      }
+    }
+
+    const feedbackForm = document.getElementById("feedbackForm");
+    const formStatus = document.getElementById("formStatus");
+
+    feedbackForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!feedbackForm.checkValidity()) {
+        feedbackForm.reportValidity();
+        return;
+      }
+
+      const name = document.getElementById("feedbackName").value.trim();
+      const email = document.getElementById("feedbackEmail").value.trim();
+      const type = document.getElementById("feedbackType").value;
+      const rating = document.getElementById("feedbackRating").value;
+      const project = document.getElementById("feedbackProject").value.trim();
+      const message = document.getElementById("feedbackMessage").value.trim();
+
+      const subject = encodeURIComponent(`Portfolio Feedback - ${type}`);
+      const body = encodeURIComponent(
+`Hi Nitesh,
+
+I reviewed your portfolio and would like to share the following feedback.
+
+Name: ${name}
+Email: ${email || "Not provided"}
+Feedback Type: ${type}
+Rating: ${rating}
+Project Reviewed: ${project || "General portfolio"}
+
+Feedback:
+${message}
+
+Regards,
+${name}`
+      );
+
+      formStatus.style.display = "block";
+
+      window.location.href =
+        `mailto:ns0762005@gmail.com?subject=${subject}&body=${body}`;
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    document.querySelectorAll(".reveal").forEach((element) => {
+      observer.observe(element);
+    });
+
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+  </script>
 </body>
 </html>
