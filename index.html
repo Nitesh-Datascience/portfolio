@@ -1,1684 +1,250 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta
-    name="description"
-    content="Nitesh Kumar's data analytics portfolio featuring Python, SQL, Excel, Power BI, machine learning, AI, and Streamlit projects."
-  />
-  <meta name="author" content="Nitesh Kumar" />
-  <meta name="theme-color" content="#08111f" />
-
-  <title>Nitesh Kumar | Data Analyst Portfolio</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-
-  <style>
-    :root {
-      --bg: #07111f;
-      --bg-soft: #0b1728;
-      --card: rgba(15, 30, 51, 0.88);
-      --card-strong: #10213a;
-      --primary: #38bdf8;
-      --primary-2: #22d3ee;
-      --text: #f8fafc;
-      --muted: #a9b7ca;
-      --border: rgba(148, 163, 184, 0.2);
-      --success: #34d399;
-      --shadow: 0 22px 55px rgba(0, 0, 0, 0.28);
-      --radius: 20px;
-      --max-width: 1180px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 90px;
-    }
-
-    body {
-      min-height: 100vh;
-      overflow-x: hidden;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.14), transparent 28%),
-        radial-gradient(circle at 88% 20%, rgba(34, 211, 238, 0.09), transparent 25%),
-        linear-gradient(180deg, #07111f 0%, #091525 55%, #07111f 100%);
-      font-family: "Poppins", sans-serif;
-      line-height: 1.7;
-    }
-
-    img {
-      max-width: 100%;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    .container {
-      width: min(92%, var(--max-width));
-      margin-inline: auto;
-    }
-
-    .section {
-      padding: 92px 0;
-    }
-
-    .section-heading {
-      max-width: 760px;
-      margin: 0 auto 44px;
-      text-align: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-      color: var(--primary);
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .section-title {
-      margin-bottom: 14px;
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.2;
-    }
-
-    .section-subtitle {
-      color: var(--muted);
-    }
-
-    .gradient-text {
-      color: var(--primary);
-      background: linear-gradient(90deg, #38bdf8, #22d3ee, #60a5fa);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Header */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
-      background: rgba(7, 17, 31, 0.82);
-      backdrop-filter: blur(18px);
-    }
-
-    .navbar {
-      min-height: 74px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .logo {
-      color: var(--text);
-      font-size: 1.2rem;
-      font-weight: 800;
-      text-decoration: none;
-      letter-spacing: 0.02em;
-    }
-
-    .logo span {
-      color: var(--primary);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: #dbe8f7;
-      font-size: 0.95rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: color 0.25s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-
-    .menu-toggle {
-      display: none;
-      padding: 8px;
-      border: 0;
-      color: var(--text);
-      background: transparent;
-      cursor: pointer;
-      font-size: 1.45rem;
-    }
-
-    /* Buttons */
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      min-height: 48px;
-      padding: 12px 22px;
-      border: 1px solid transparent;
-      border-radius: 12px;
-      font-weight: 700;
-      text-decoration: none;
-      transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease,
-        border-color 0.25s ease;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-    }
-
-    .btn-primary {
-      color: #03111c;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.22);
-    }
-
-    .btn-secondary {
-      color: var(--text);
-      border-color: rgba(56, 189, 248, 0.38);
-      background: rgba(56, 189, 248, 0.07);
-    }
-
-    .btn-small {
-      min-height: 42px;
-      padding: 10px 16px;
-      font-size: 0.88rem;
-    }
-
-    /* Hero */
-    .hero {
-      min-height: calc(100vh - 74px);
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      align-items: center;
-      gap: 58px;
-      padding: 72px 0;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      padding: 8px 13px;
-      border: 1px solid rgba(52, 211, 153, 0.32);
-      border-radius: 999px;
-      color: #b7f7dc;
-      background: rgba(52, 211, 153, 0.08);
-      font-size: 0.86rem;
-      font-weight: 600;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 0 5px rgba(52, 211, 153, 0.12);
-    }
-
-    .hero h1 {
-      margin-top: 20px;
-      font-size: clamp(3rem, 7vw, 5.8rem);
-      line-height: 1.02;
-      letter-spacing: -0.045em;
-    }
-
-    .hero h2 {
-      margin-top: 16px;
-      color: #d7e3f2;
-      font-size: clamp(1.25rem, 2.3vw, 1.85rem);
-      font-weight: 500;
-    }
-
-    .hero p {
-      max-width: 720px;
-      margin-top: 20px;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
-
-    .hero-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 28px;
-    }
-
-    .hero-stat {
-      min-width: 145px;
-      padding: 14px 18px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(15, 30, 51, 0.68);
-    }
-
-    .hero-stat strong {
-      display: block;
-      color: var(--primary);
-      font-size: 1.35rem;
-    }
-
-    .hero-stat span {
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    .profile-wrap {
-      position: relative;
-      display: flex;
-      justify-content: center;
-    }
-
-    .profile-glow {
-      position: absolute;
-      inset: 8% 5%;
-      border-radius: 50%;
-      background: rgba(56, 189, 248, 0.22);
-      filter: blur(55px);
-    }
-
-    .profile-card {
-      position: relative;
-      width: min(390px, 92vw);
-      padding: 18px;
-      border: 1px solid rgba(56, 189, 248, 0.28);
-      border-radius: 34px;
-      background: linear-gradient(145deg, rgba(14, 30, 52, 0.97), rgba(8, 18, 33, 0.95));
-      box-shadow: var(--shadow);
-      transform: rotate(1.5deg);
-    }
-
-    .profile-card img {
-      width: 100%;
-      aspect-ratio: 1 / 1.08;
-      object-fit: cover;
-      border-radius: 25px;
-      background: #0c1a2d;
-    }
-
-    .profile-fallback {
-      display: none;
-      place-items: center;
-      width: 100%;
-      aspect-ratio: 1 / 1.08;
-      border-radius: 25px;
-      color: var(--primary);
-      background:
-        linear-gradient(135deg, rgba(56, 189, 248, 0.13), rgba(34, 211, 238, 0.05)),
-        #0c1a2d;
-      font-size: 5rem;
-      font-weight: 800;
-    }
-
-    /* About */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 34px;
-    }
-
-    .glass-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--card);
-      box-shadow: var(--shadow);
-    }
-
-    .about-copy {
-      padding: 34px;
-    }
-
-    .about-copy p {
-      color: var(--muted);
-    }
-
-    .about-copy p + p {
-      margin-top: 16px;
-    }
-
-    .quick-info {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      padding: 24px;
-    }
-
-    .info-item {
-      padding: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.16);
-      border-radius: 14px;
-      background: rgba(7, 17, 31, 0.5);
-    }
-
-    .info-item span {
-      display: block;
-      margin-bottom: 4px;
-      color: var(--muted);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .info-item strong {
-      font-size: 0.97rem;
-    }
-
-    /* Skills */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
-    }
-
-    .skill-card {
-      position: relative;
-      overflow: hidden;
-      min-height: 185px;
-      padding: 26px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: linear-gradient(145deg, rgba(16, 33, 58, 0.94), rgba(10, 22, 39, 0.92));
-      transition:
-        transform 0.28s ease,
-        border-color 0.28s ease;
-    }
-
-    .skill-card::after {
-      content: "";
-      position: absolute;
-      right: -30px;
-      bottom: -45px;
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      background: rgba(56, 189, 248, 0.08);
-    }
-
-    .skill-card:hover {
-      transform: translateY(-7px);
-      border-color: rgba(56, 189, 248, 0.48);
-    }
-
-    .skill-icon {
-      display: grid;
-      place-items: center;
-      width: 44px;
-      height: 44px;
-      margin-bottom: 18px;
-      border-radius: 12px;
-      color: #06111d;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      font-weight: 800;
-    }
-
-    .skill-card h3 {
-      margin-bottom: 8px;
-      font-size: 1.08rem;
-    }
-
-    .skill-card p {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    /* Projects */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 24px;
-    }
-
-    .project-card {
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: linear-gradient(145deg, rgba(15, 30, 51, 0.97), rgba(10, 22, 39, 0.95));
-      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
-      transition:
-        transform 0.28s ease,
-        border-color 0.28s ease;
-    }
-
-    .project-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(56, 189, 248, 0.5);
-    }
-
-    .project-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 22px 22px 0;
-    }
-
-    .project-number {
-      color: rgba(148, 163, 184, 0.45);
-      font-size: 2.4rem;
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .project-badge {
-      padding: 6px 10px;
-      border-radius: 999px;
-      color: #bdefff;
-      background: rgba(56, 189, 248, 0.1);
-      font-size: 0.73rem;
-      font-weight: 700;
-    }
-
-    .project-content {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      padding: 20px 22px 24px;
-    }
-
-    .project-card h3 {
-      margin-bottom: 10px;
-      color: var(--primary);
-      font-size: 1.16rem;
-      line-height: 1.35;
-    }
-
-    .project-card p {
-      color: var(--muted);
-      font-size: 0.91rem;
-    }
-
-    .tech-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 18px;
-    }
-
-    .tech-list span {
-      padding: 5px 9px;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      border-radius: 999px;
-      color: #c8d5e6;
-      background: rgba(7, 17, 31, 0.48);
-      font-size: 0.72rem;
-    }
-
-    .project-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: auto;
-      padding-top: 22px;
-    }
-
-    /* GitHub Stats */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
-    }
-
-    .stats-card {
-      min-height: 220px;
-      display: grid;
-      place-items: center;
-      padding: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: rgba(15, 30, 51, 0.76);
-    }
-
-    .stats-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .stats-card-wide {
-      grid-column: 1 / -1;
-    }
-
-    .stats-fallback {
-      display: none;
-      padding: 30px;
-      text-align: center;
-    }
-
-    .stats-fallback h3 {
-      margin-bottom: 10px;
-      color: var(--primary);
-    }
-
-    .stats-fallback p {
-      color: var(--muted);
-    }
-
-    /* Feedback */
-    .feedback-grid {
-      display: grid;
-      grid-template-columns: 0.82fr 1.18fr;
-      gap: 28px;
-    }
-
-    .feedback-copy {
-      padding: 32px;
-    }
-
-    .feedback-copy h3 {
-      margin-bottom: 12px;
-      font-size: 1.6rem;
-    }
-
-    .feedback-copy p {
-      color: var(--muted);
-    }
-
-    .feedback-points {
-      display: grid;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .feedback-point {
-      display: flex;
-      gap: 11px;
-      align-items: flex-start;
-      color: #dce8f6;
-    }
-
-    .feedback-point span {
-      color: var(--primary);
-      font-weight: 800;
-    }
-
-    .feedback-form {
-      padding: 30px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .form-group {
-      display: grid;
-      gap: 8px;
-    }
-
-    .form-group.full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      color: #e5edf8;
-      font-size: 0.88rem;
-      font-weight: 600;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      border-radius: 12px;
-      outline: none;
-      color: var(--text);
-      background: rgba(7, 17, 31, 0.74);
-      transition:
-        border-color 0.25s ease,
-        box-shadow 0.25s ease;
-    }
-
-    input,
-    select {
-      height: 48px;
-      padding: 0 14px;
-    }
-
-    textarea {
-      min-height: 145px;
-      padding: 14px;
-      resize: vertical;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.11);
-    }
-
-    select option {
-      color: #111827;
-    }
-
-    .form-note {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-
-    .form-status {
-      display: none;
-      margin-top: 15px;
-      padding: 12px 14px;
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      border-radius: 10px;
-      color: #baf7dd;
-      background: rgba(52, 211, 153, 0.08);
-      font-size: 0.88rem;
-    }
-
-    /* Contact */
-    .contact-card {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 28px;
-      padding: 34px;
-    }
-
-    .contact-card p {
-      margin-top: 8px;
-      color: var(--muted);
-    }
-
-    .contact-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 12px;
-    }
-
-    /* Footer */
-    footer {
-      padding: 28px 0;
-      border-top: 1px solid rgba(148, 163, 184, 0.14);
-      color: var(--muted);
-      text-align: center;
-      background: rgba(3, 10, 20, 0.58);
-    }
-
-    footer a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    /* Reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition:
-        opacity 0.65s ease,
-        transform 0.65s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 980px) {
-      .hero,
-      .about-grid,
-      .feedback-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        text-align: center;
-      }
-
-      .hero p,
-      .hero .btn-row,
-      .hero-stats {
-        margin-inline: auto;
-        justify-content: center;
-      }
-
-      .profile-wrap {
-        order: -1;
-      }
-
-      .profile-card {
-        width: min(330px, 82vw);
-      }
-
-      .skills-grid,
-      .projects-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 760px) {
-      .menu-toggle {
-        display: block;
-      }
-
-      .nav-links {
-        position: absolute;
-        top: 74px;
-        left: 4%;
-        right: 4%;
-        display: none;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        background: #0b1728;
-        box-shadow: var(--shadow);
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav-links a {
-        display: block;
-        padding: 14px 18px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-      }
-
-      .skills-grid,
-      .projects-grid,
-      .stats-grid,
-      .form-grid,
-      .quick-info {
-        grid-template-columns: 1fr;
-      }
-
-      .stats-card-wide {
-        grid-column: auto;
-      }
-
-      .section {
-        padding: 74px 0;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 52px 0 74px;
-      }
-
-      .contact-card {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .contact-links {
-        justify-content: center;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .btn {
-        width: 100%;
-      }
-
-      .hero-stat {
-        flex: 1 1 100%;
-      }
-
-      .about-copy,
-      .feedback-copy,
-      .feedback-form,
-      .contact-card {
-        padding: 24px;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Nitesh Kumar — Data Analyst. Explore Python, SQL, Excel, Power BI, and machine learning projects, interactive demos, and business-focused case studies.">
+  <meta name="author" content="Nitesh Kumar">
+  <meta name="theme-color" content="#0b121b">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nitesh Kumar | Data Analyst & Business Intelligence">
+  <meta property="og:description" content="From raw data to clear decisions. Explore analytics, dashboards, and machine learning projects by Nitesh Kumar.">
+  <meta property="og:url" content="https://nitesh-datascience.github.io/portfolio/">
+  <meta property="og:image" content="https://nitesh-datascience.github.io/portfolio/profile.jpg">
+  <meta property="og:image:alt" content="Nitesh Kumar, data analyst">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://nitesh-datascience.github.io/portfolio/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20261014">
+  <title>Nitesh Kumar | Data Analyst & Business Intelligence</title>
+  <script>
+    try {
+      const saved = localStorage.getItem('nitesh.theme');
+      const light = saved === 'light' || (!saved && matchMedia('(prefers-color-scheme: light)').matches);
+      document.documentElement.dataset.theme = light ? 'light' : 'dark';
+    } catch {}
+  </script>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Person","name":"Nitesh Kumar","url":"https://nitesh-datascience.github.io/portfolio/","image":"https://nitesh-datascience.github.io/portfolio/profile.jpg","jobTitle":"Data Analyst","email":"mailto:ns0762005@gmail.com","sameAs":["https://github.com/Nitesh-Datascience","https://www.linkedin.com/in/niteshkumar-codlytic"],"knowsAbout":["Data Analytics","Python","SQL","Microsoft Excel","Power BI","Machine Learning"]}
+  </script>
 </head>
-
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-4 1-4-2-6-2m12 5v-4a3.5 3.5 0 0 0-1-2.7c3.3-.4 6.7-1.6 6.7-7.2a5.6 5.6 0 0 0-1.5-3.9 5.2 5.2 0 0 0-.1-3.8S17.9.6 15 2a13 13 0 0 0-6 0C6.1.6 4.9 1.4 4.9 1.4a5.2 5.2 0 0 0-.1 3.8 5.6 5.6 0 0 0-1.5 3.9c0 5.6 3.4 6.8 6.7 7.2A3.5 3.5 0 0 0 9 19v3" transform="translate(0 1) scale(.95)"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-10m-6 0h6v6M3 4v17h18"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M1 4h13v13H1zM14 9h5l4 4v4h-9"/><circle cx="5.5" cy="18" r="2.5"/><circle cx="18.5" cy="18" r="2.5"/></symbol>
+    <symbol id="i-activity" viewBox="0 0 24 24"><path d="M2 12h5l3-8 4 16 3-8h5"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M2 21v-3a7 7 0 0 1 14 0v3M17 3a4 4 0 0 1 0 8m3 10v-3a7 7 0 0 0-3-6"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 10 6-10 6L2 9l10-6Zm-10 11 10 6 10-6M2 19l10 4 10-4"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 9 4v6c0 6-9 10-9 10S3 18 3 12V6l9-4Z"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m8 0h5v-5M7 9h10M7 13h10M7 17h5"/></symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24"><path d="M3 21h18M6 17v-5m6 5V3m6 14V7"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M4 7h16l1 14H3L4 7Zm4 0V5a4 4 0 0 1 8 0v2"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2s8 8 8 13a8 8 0 1 1-16 0c0-5 8-13 8-13Z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7L22 6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 1v2m0 18v2M1 12h2m18 0h2M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7A9 9 0 0 0 4 5L2 8m0-6v6h6m-4 9a9 9 0 0 0 16 2l2-3m0 6v-6h-6"/></symbol>
+  </svg>
+
   <header class="site-header">
-    <div class="container navbar">
-      <a href="#home" class="logo">Nitesh<span>.</span></a>
-
-      <button
-        class="menu-toggle"
-        id="menuToggle"
-        type="button"
-        aria-label="Open navigation menu"
-        aria-expanded="false"
-      >
-        ☰
-      </button>
-
-      <nav aria-label="Main navigation">
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#github">GitHub</a></li>
-          <li><a href="#feedback">Feedback</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+    <div class="container header-inner">
+      <a class="brand" href="#home" aria-label="Nitesh Kumar home"><span class="brand-mark">nk<span>.</span></span><span class="brand-name">Nitesh Kumar<span>DATA ANALYST</span></span></a>
+      <nav class="main-nav" aria-label="Main navigation" id="mainNav">
+        <a href="#projects">Work</a><a href="#skills">Expertise</a><a href="#about">About</a><a href="#github">Activity</a>
       </nav>
+      <div class="header-actions">
+        <button class="icon-button theme-toggle" id="themeToggle" type="button" aria-label="Switch color theme" hidden><svg class="icon" aria-hidden="true"><use href="#i-sun"></use></svg></button>
+        <a class="header-contact" href="#contact">Let’s connect <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Open navigation" hidden><span></span><span></span></button>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="container hero" id="home">
-      <div class="hero-content reveal">
-        <div class="hero-badge">
-          <span class="status-dot"></span>
-          Open to Data Analyst & MIS opportunities
-        </div>
-
-        <h1>
-          Hi, I’m <span class="gradient-text">Nitesh Kumar</span>
-        </h1>
-
-        <h2>Data Analyst | Python | SQL | Excel | Power BI | AI & ML</h2>
-
-        <p>
-          I transform raw data into dashboards, predictive models, and actionable
-          business insights. My work combines analytics, machine learning, data
-          visualization, and practical problem-solving.
-        </p>
-
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <strong>20+</strong>
-            <span>GitHub repositories</span>
-          </div>
-          <div class="hero-stat">
-            <strong>2</strong>
-            <span>Live Streamlit applications</span>
-          </div>
-          <div class="hero-stat">
-            <strong>6+</strong>
-            <span>Core analytics tools</span>
-          </div>
-        </div>
-
-        <div class="btn-row">
-          <a href="resume.pdf" class="btn btn-primary" download>Download Resume</a>
-          <a href="#projects" class="btn btn-secondary">Explore Projects</a>
-          <a
-            href="https://github.com/Nitesh-Datascience"
-            class="btn btn-secondary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub Profile
-          </a>
-        </div>
+  <main id="main">
+    <section class="container hero" id="home" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="small-cross" aria-hidden="true">+</span> DATA ANALYTICS & BUSINESS INTELLIGENCE</p>
+        <h1 id="heroTitle">From raw data<br>to <span>clear decisions.</span></h1>
+        <p class="hero-intro">I’m <strong>Nitesh Kumar</strong>, a data analyst who turns complex data into useful dashboards, predictive models, and practical business insights.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#projects">Explore my work <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a><a class="button button-outline" href="resume.pdf" download="Nitesh_Kumar_Resume.pdf">Download résumé <svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg></a></div>
+        <p class="hero-toolkit">Python <span>·</span> SQL <span>·</span> Excel <span>·</span> Power BI <span>·</span> AI & ML</p>
+        <div class="hero-socials"><a href="https://github.com/Nitesh-Datascience" target="_blank" rel="noopener noreferrer">GitHub <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><a href="https://www.linkedin.com/in/niteshkumar-codlytic" target="_blank" rel="noopener noreferrer">LinkedIn <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><span>Based in Delhi, India</span></div>
       </div>
-
-      <div class="profile-wrap reveal">
-        <div class="profile-glow"></div>
-        <div class="profile-card">
-          <img
-            id="profileImage"
-            src="profile.jpg"
-            alt="Portrait of Nitesh Kumar"
-            onerror="showProfileFallback()"
-          />
-          <div class="profile-fallback" id="profileFallback" aria-label="Nitesh Kumar initials">
-            NK
-          </div>
-        </div>
+      <div class="hero-portrait">
+        <div class="portrait-frame"><img src="profile.jpg" alt="Nitesh Kumar outdoors" width="1121" height="1121" fetchpriority="high"><div class="portrait-shade"></div><span class="availability"><i aria-hidden="true"></i> Open to opportunities</span><div class="portrait-caption"><span>ANALYTICS WITH PURPOSE</span><strong>Curiosity. Clarity. Impact.</strong></div></div>
+        <div class="portrait-note"><svg class="icon" aria-hidden="true"><use href="#i-bars"></use></svg><div>More than a dashboard.<span>A clearer next step.</span></div><span class="note-dot" aria-hidden="true"></span></div>
+        <span class="portrait-index" aria-hidden="true">NK / PORTFOLIO</span>
       </div>
     </section>
 
-    <section class="section" id="about">
+    <div class="container portfolio-strip" aria-label="Portfolio at a glance"><div><strong>13<span> /</span></strong><span>Selected projects</span></div><div><strong>7<span> /</span></strong><span>Interactive demo links</span></div><div><strong>BCA<span> /</span></strong><span>Computer applications graduate</span></div><a href="#projects" class="strip-link">Explore the thinking<br>behind the work <span aria-hidden="true">↙</span></a></div>
+
+    <section class="section work-section" id="projects" aria-labelledby="workTitle">
       <div class="container">
-        <div class="section-heading reveal">
-          <span class="eyebrow">My Story</span>
-          <h2 class="section-title">About Me</h2>
-          <p class="section-subtitle">
-            A BCA graduate building practical, business-focused solutions with data.
-          </p>
+        <div class="section-heading"><div><p class="eyebrow">01 / SELECTED WORK</p><h2 id="workTitle">Real questions.<br><span>Practical data projects.</span></h2></div><p class="section-description">From retail demand to learner behavior, each project starts with a question and ends with something you can explore.</p></div>
+        <div class="project-toolbar" id="projectToolbar" hidden>
+          <div class="project-filters" role="group" aria-label="Filter projects by field"><button type="button" class="filter-button active" data-filter="all" aria-pressed="true">All work <span>13</span></button><button type="button" class="filter-button" data-filter="analytics" aria-pressed="false">Analytics & BI</button><button type="button" class="filter-button" data-filter="ml" aria-pressed="false">Machine learning</button><button type="button" class="filter-button" data-filter="ai" aria-pressed="false">AI & IoT</button></div>
+          <div class="search-wrap"><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg><label class="sr-only" for="projectSearch">Search projects or tools</label><input id="projectSearch" type="search" placeholder="Search projects or tools…" autocomplete="off"></div>
         </div>
-
-        <div class="about-grid">
-          <article class="glass-card about-copy reveal">
-            <p>
-              I am a <strong>BCA graduate</strong> passionate about Data Analytics,
-              Data Science, Machine Learning, Artificial Intelligence, and Python
-              development.
-            </p>
-            <p>
-              I have worked on projects involving supply-chain analytics, customer
-              churn, stock prediction, IoT monitoring, business dashboards, privacy
-              technology, restaurant analytics, and deep learning.
-            </p>
-            <p>
-              My goal is to help teams make faster and smarter decisions through
-              reliable analysis, clear visualizations, and measurable insights.
-            </p>
-          </article>
-
-          <div class="glass-card quick-info reveal">
-            <div class="info-item">
-              <span>Education</span>
-              <strong>Bachelor of Computer Applications</strong>
-            </div>
-            <div class="info-item">
-              <span>Location</span>
-              <strong>India</strong>
-            </div>
-            <div class="info-item">
-              <span>Target Roles</span>
-              <strong>Data Analyst / MIS Executive</strong>
-            </div>
-            <div class="info-item">
-              <span>Primary Focus</span>
-              <strong>Analytics & Business Intelligence</strong>
-            </div>
-          </div>
-        </div>
+        <p class="project-result-count" id="projectCount" role="status" aria-live="polite">13 projects · 7 interactive demo links</p>
+        <div class="project-grid" id="projectGrid"><article class="project-card featured" id="project-foresight" data-project="foresight" data-category="analytics" data-demo="true">
+  <div class="project-visual forecast-visual"><div class="visual-caption"><span>FORECAST EVALUATION</span><span>Holdout WAPE ↓</span></div><div class="comparison"><div><span>Seasonal baseline</span><div class="comparison-bar baseline" style="--bar:84%"><b>33.6%</b></div></div><div><span>FORESIGHT model</span><div class="comparison-bar" style="--bar:61%"><b>24.4%</b></div></div></div><span class="visual-footnote">Dataset evaluation · lower is better</span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>01 / Forecasting · Retail</span><span class="demo-badge">Demo available</span></div>
+    <h3>FORESIGHT</h3><p>Turn weekly retail demand into forecasts, stockout signals, and practical inventory decisions.</p>
+    <ul class="tags" aria-label="Technologies"><li>Python</li><li>Time series</li><li>Streamlit</li></ul>
+    <div class="project-actions"><a class="project-demo" href="https://foresightnorthbay-ufqepslzgzysttnkue79rx.streamlit.app/" target="_blank" rel="noopener noreferrer">Open demo <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><a class="source-link" href="https://github.com/Nitesh-Datascience/foresight_northbay" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>How can a retail planner anticipate demand and identify inventory risk?</p><h4>The approach</h4><p>Clean 73,100 retail records, aggregate 100 Store × Product series, and evaluate weekly forecasts with rolling-origin validation against a seasonal-naive baseline.</p><h4>The deliverable</h4><p>A planning dashboard, transparent stockout and overstock scores, and a FastAPI scoring service.</p><h4>Evidence & context</h4><p>Holdout WAPE: 24.4%, compared with 33.6% for the baseline. These are dataset evaluation results from a simulated NorthBay Living engagement, not measured client impact.</p><a href="https://github.com/Nitesh-Datascience/foresight_northbay#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card featured" id="project-logistics" data-project="logistics" data-category="analytics" data-demo="true">
+  <div class="project-visual logistics-visual"><div class="visual-caption"><span>DELIVERY PERFORMANCE</span><span>Dataset result</span></div><div class="logistics-result"><div class="donut" role="img" aria-label="SLA compliance: 42.72 percent"><div><strong>42.72<span>%</span></strong><small>SLA compliant</small></div></div><div class="logistics-legend"><p><i></i>On time or early <strong>42.72%</strong></p><p><i></i>Delayed <strong>57.28%</strong></p><small>180,519 shipment records</small></div></div></div>
+  <div class="project-content">
+    <div class="project-meta"><span>02 / Operations · Supply chain</span><span class="demo-badge">Demo available</span></div>
+    <h3>APL Logistics</h3><p>Investigate delivery delays, shipping modes, and regional bottlenecks across 180,519 shipment records.</p>
+    <ul class="tags" aria-label="Technologies"><li>Pandas</li><li>KPI design</li><li>Streamlit</li></ul>
+    <div class="project-actions"><a class="project-demo" href="https://https---appcom-nitesh-datascience-apllogistics-464avyacan3btze.streamlit.app/" target="_blank" rel="noopener noreferrer">Open demo <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><a class="source-link" href="https://github.com/Nitesh-Datascience/https---github.com-Nitesh-Datascience-APL_Logistics" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>Where are shipments missing delivery commitments, and which segments need attention?</p><h4>The approach</h4><p>Clean shipment records, calculate delivery gaps, define SLA metrics, and compare risk across shipping modes, regions, and customer segments.</p><h4>The deliverable</h4><p>An interactive logistics control tower, an analysis notebook, and an executive summary.</p><h4>Evidence & context</h4><p>The supplied dataset shows 42.72% SLA compliance and 57.28% delayed shipments. It has no reliable order or shipping date column, so time-series trends are not claimed.</p><a href="https://github.com/Nitesh-Datascience/https---github.com-Nitesh-Datascience-APL_Logistics#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-care" data-project="care" data-category="analytics" data-demo="true">
+  <div class="project-visual compact-visual visual-analytics"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-activity"></use></svg></span><span>Process efficiency &amp; placement outcomes</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>03 / Operations · Public data</span><span class="demo-badge">Demo available</span></div>
+    <h3>Care Transition Analytics</h3><p>Make transfer efficiency, discharge patterns, and backlog accumulation easier to explore.</p>
+    <ul class="tags" aria-label="Technologies"><li>Python</li><li>Operational KPIs</li><li>Streamlit</li></ul>
+    <div class="project-actions"><a class="project-demo" href="https://care-transition-efficiency-analytics-knfy8ljtaxyn8ti74zy5ng.streamlit.app/" target="_blank" rel="noopener noreferrer">Open demo <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><a class="source-link" href="https://github.com/Nitesh-Datascience/care-transition-efficiency-analytics" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>Where do care transitions slow down, and how do placement outcomes vary over time?</p><h4>The approach</h4><p>Derive transfer, discharge, throughput, backlog, and rolling stability indicators from 720 valid public reporting records.</p><h4>The deliverable</h4><p>Date filters, threshold alerts, bottleneck views, and stakeholder reports.</p><h4>Evidence & context</h4><p>An operational analysis of the HHS Unaccompanied Alien Children Program dataset; these indicators are not clinical measures or patient predictions.</p><a href="https://github.com/Nitesh-Datascience/care-transition-efficiency-analytics#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-churn" data-project="churn" data-category="ml" data-demo="true">
+  <div class="project-visual compact-visual visual-ml"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg></span><span>Explore retention risk</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>04 / Machine learning · Customers</span><span class="demo-badge">Demo available</span></div>
+    <h3>Customer Churn Intelligence</h3><p>Explore customer patterns, compare model performance, and inspect individual churn predictions.</p>
+    <ul class="tags" aria-label="Technologies"><li>Python</li><li>Classification</li><li>Streamlit</li></ul>
+    <div class="project-actions"><a class="project-demo" href="https://customerchurnprediction-fkpbjib3muyvrhmgchkurb.streamlit.app/" target="_blank" rel="noopener noreferrer">Open demo <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><a class="source-link" href="https://github.com/Nitesh-Datascience/Customer_churn_Prediction" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>Which customer characteristics are associated with churn?</p><h4>The approach</h4><p>Connect exploratory customer analytics with model evaluation and an individual risk-prediction workflow.</p><h4>The deliverable</h4><p>An executive KPI view, interactive churn analysis, customer exploration, and a model-performance dashboard.</p><h4>Evidence & context</h4><p>A portfolio prediction workflow. Predictions should be assessed against the model evaluation before use in retention decisions.</p><a href="https://github.com/Nitesh-Datascience/Customer_churn_Prediction#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-edupro" data-project="edupro" data-category="ml" data-demo="true">
+  <div class="project-visual compact-visual visual-ml"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-layers"></use></svg></span><span>Learner segmentation &amp; recommendations</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>05 / Machine learning · Education</span><span class="demo-badge">Demo available</span></div>
+    <h3>EduPro</h3><p>Understand different learner groups and recommend courses using transparent ranking signals.</p>
+    <ul class="tags" aria-label="Technologies"><li>K-Means</li><li>Recommendations</li><li>Streamlit</li></ul>
+    <div class="project-actions"><a class="project-demo" href="https://eduproproject-jkoe6q6tctk5xafa6ggogf.streamlit.app/" target="_blank" rel="noopener noreferrer">Open demo <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><a class="source-link" href="https://github.com/Nitesh-Datascience/EduPro_Project" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>How can course recommendations reflect different learner interests and study patterns?</p><h4>The approach</h4><p>Join user, course, and transaction data; standardize learner features; select K-Means segments by silhouette score; rank courses with category, level, segment-popularity, and rating signals.</p><h4>The deliverable</h4><p>A learner explorer, segment comparison, recommendation views, and model comparisons.</p><h4>Evidence & context</h4><p>PCA supports exploration. The source data lacks engagement outcomes, so recommendation precision or engagement lift is not claimed.</p><a href="https://github.com/Nitesh-Datascience/EduPro_Project#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-fraud" data-project="fraud" data-category="ml" data-demo="true">
+  <div class="project-visual compact-visual visual-ml"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg></span><span>Model comparison &amp; transaction scoring</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>06 / Machine learning · Finance</span><span class="demo-badge">Demo available</span></div>
+    <h3>Financial Fraud Detection</h3><p>Compare classifiers and anomaly models while keeping fraud recall and false alerts in view.</p>
+    <ul class="tags" aria-label="Technologies"><li>scikit-learn</li><li>Evaluation</li><li>Streamlit</li></ul>
+    <div class="project-actions"><a class="project-demo" href="https://financialfrauddetection-6geni2xkrt3dc8ry2infsf.streamlit.app/" target="_blank" rel="noopener noreferrer">Open demo <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><a class="source-link" href="https://github.com/Nitesh-Datascience/Financial_Fraud_Detection" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>How can transaction models be evaluated without hiding missed fraud behind high accuracy?</p><h4>The approach</h4><p>Split datasets before preprocessing, compare model families, and select the primary classifier using validation average precision.</p><h4>The deliverable</h4><p>A model-comparison dashboard, CSV and single-transaction scoring, plus a saved-data replay.</p><h4>Evidence & context</h4><p>An educational benchmark. Replay uses saved transactions; live bank integration and production fraud prevention are not implemented.</p><a href="https://github.com/Nitesh-Datascience/Financial_Fraud_Detection#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-privyscan" data-project="privyscan" data-category="ai" data-demo="true">
+  <div class="project-visual compact-visual visual-ai"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-scan"></use></svg></span><span>Sensitive information detection</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>07 / AI · Document privacy</span><span class="demo-badge">Demo available</span></div>
+    <h3>PrivyScan AI</h3><p>Detect potentially sensitive text in documents and images, then create a redacted copy.</p>
+    <ul class="tags" aria-label="Technologies"><li>Python</li><li>OCR</li><li>Streamlit</li></ul>
+    <div class="project-actions"><a class="project-demo" href="https://privyscan-ai-starter-afe9ltswbslgt9vkczfvxx.streamlit.app/" target="_blank" rel="noopener noreferrer">Open demo <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><a class="source-link" href="https://github.com/Nitesh-Datascience/PrivyScan-AI-Starter" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>How can documents be reviewed for common sensitive information before sharing?</p><h4>The approach</h4><p>Combine OCR with detection rules for emails, phone numbers, and identity-like patterns, followed by scoring and redaction.</p><h4>The deliverable</h4><p>A privacy-assistant prototype with a locally runnable OCR and redaction pipeline.</p><h4>Evidence & context</h4><p>Detection needs human review. The local workflow runs on the user’s device; a hosted Streamlit demo runs on its host.</p><a href="https://github.com/Nitesh-Datascience/PrivyScan-AI-Starter#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-sales" data-project="sales" data-category="analytics">
+  <div class="project-visual compact-visual visual-analytics"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-bars"></use></svg></span><span>Business reporting in Excel</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>08 / Business intelligence · Sales</span></div>
+    <h3>Sales MIS Dashboard</h3><p>Bring sales, profit, regional performance, and management KPIs into a single reporting view.</p>
+    <ul class="tags" aria-label="Technologies"><li>Excel</li><li>MIS reporting</li><li>Dashboards</li></ul>
+    <div class="project-actions"><a class="source-link" href="https://github.com/Nitesh-Datascience/Sales-MIS-Dashboard-Project-using-Excel" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>How can management review sales performance in a concise reporting format?</p><h4>The approach</h4><p>Structure business data and present sales, profit, regional comparisons, and KPIs in Excel.</p><h4>The deliverable</h4><p>An Excel dashboard and a repeatable management-reporting example.</p><a href="https://github.com/Nitesh-Datascience/Sales-MIS-Dashboard-Project-using-Excel#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-shopping" data-project="shopping" data-category="analytics">
+  <div class="project-visual compact-visual visual-analytics"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-bag"></use></svg></span><span>Retail patterns &amp; customer segments</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>09 / Analytics · Retail</span></div>
+    <h3>Shopping Behavior Analysis</h3><p>Explore purchasing behavior, product preferences, and useful customer patterns.</p>
+    <ul class="tags" aria-label="Technologies"><li>Python</li><li>Pandas</li><li>EDA</li></ul>
+    <div class="project-actions"><a class="source-link" href="https://github.com/Nitesh-Datascience/Customer-Shopping-Behavior-Analysis" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>What can purchasing patterns reveal about customer preferences?</p><h4>The approach</h4><p>Use exploratory analysis and visual comparisons to inspect customer segments and purchasing trends.</p><h4>The deliverable</h4><p>A repository documenting retail analysis and business observations.</p><a href="https://github.com/Nitesh-Datascience/Customer-Shopping-Behavior-Analysis#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-telecom" data-project="telecom" data-category="ml">
+  <div class="project-visual compact-visual visual-ml"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg></span><span>Customer retention analysis</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>10 / Machine learning · Telecom</span></div>
+    <h3>Telecom Churn Modeling</h3><p>Study service usage and customer characteristics to understand churn and retention opportunities.</p>
+    <ul class="tags" aria-label="Technologies"><li>Python</li><li>Machine learning</li><li>Power BI</li></ul>
+    <div class="project-actions"><a class="source-link" href="https://github.com/Nitesh-Datascience/Telcom_Customer" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>Which service and customer patterns are associated with telecom churn?</p><h4>The approach</h4><p>Practice preprocessing, modeling, and visualization as part of a summer-training project.</p><h4>The deliverable</h4><p>An exploratory churn-modeling project with business-facing visual analysis.</p><a href="https://github.com/Nitesh-Datascience/Telcom_Customer#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-nifty" data-project="nifty" data-category="ml">
+  <div class="project-visual compact-visual visual-ml"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-trend"></use></svg></span><span>LSTM &amp; machine learning experiments</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>11 / Machine learning · Time series</span></div>
+    <h3>NIFTY Prediction</h3><p>Explore historical index data and compare forecasting approaches, including LSTM.</p>
+    <ul class="tags" aria-label="Technologies"><li>LSTM</li><li>Python</li><li>Time series</li></ul>
+    <div class="project-actions"><a class="source-link" href="https://github.com/Nitesh-Datascience/NIFTY-PREDICTION-USING-LSTM-AND-MACHINE-LEARNING-ALGORITHMS-FROM-2001-TO-12TH-JULY-2024" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>How do different learning approaches behave on historical stock-index data?</p><h4>The approach</h4><p>Prepare historical data and experiment with LSTM, regression, SVM, tree, and KNN approaches.</p><h4>The deliverable</h4><p>An educational forecasting and model-comparison project.</p><h4>Evidence & context</h4><p>Historical experiments do not establish future returns. This project is not investment advice.</p><a href="https://github.com/Nitesh-Datascience/NIFTY-PREDICTION-USING-LSTM-AND-MACHINE-LEARNING-ALGORITHMS-FROM-2001-TO-12TH-JULY-2024#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-resnet" data-project="resnet" data-category="ai">
+  <div class="project-visual compact-visual visual-ai"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-scan"></use></svg></span><span>Image classification experiments</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>12 / Deep learning · Computer vision</span></div>
+    <h3>ResNet-50 Transfer Learning</h3><p>Explore image classification using a pretrained ResNet-50 model and transfer learning.</p>
+    <ul class="tags" aria-label="Technologies"><li>ResNet-50</li><li>Deep learning</li><li>Python</li></ul>
+    <div class="project-actions"><a class="source-link" href="https://github.com/Nitesh-Datascience/Transfer-Learning-Resnet-50" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>How can a pretrained vision model support a new classification task?</p><h4>The approach</h4><p>Experiment with transfer learning and a ResNet-50 backbone for image classification.</p><h4>The deliverable</h4><p>A repository demonstrating a computer-vision learning workflow.</p><a href="https://github.com/Nitesh-Datascience/Transfer-Learning-Resnet-50#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article>
+<article class="project-card" id="project-water" data-project="water" data-category="ai">
+  <div class="project-visual compact-visual visual-ai"><span class="project-symbol"><svg class="icon" aria-hidden="true"><use href="#i-drop"></use></svg></span><span>IoT monitoring &amp; automation</span><span class="visual-grid" aria-hidden="true"></span></div>
+  <div class="project-content">
+    <div class="project-meta"><span>13 / IoT · Monitoring</span></div>
+    <h3>Smart Water Tank Monitoring</h3><p>Use water-level monitoring concepts to support better water management and reduce overflow.</p>
+    <ul class="tags" aria-label="Technologies"><li>IoT</li><li>Sensors</li><li>Automation</li></ul>
+    <div class="project-actions"><a class="source-link" href="https://github.com/Nitesh-Datascience/IOT-BASED-Smart-Water-Tank-Monitoring-System" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg> Source <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
+    <details class="case-study"><summary>Read case study <span aria-hidden="true">+</span></summary><div class="case-body"><h4>The question</h4><p>How can sensor readings make water levels easier to monitor?</p><h4>The approach</h4><p>Combine water-level sensing and IoT concepts in a monitoring-system project.</p><h4>The deliverable</h4><p>A hardware-oriented project documenting the monitoring approach.</p><a href="https://github.com/Nitesh-Datascience/IOT-BASED-Smart-Water-Tank-Monitoring-System#readme" target="_blank" rel="noopener noreferrer">Read project documentation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></details>
+  </div>
+</article></div>
+        <div class="empty-state" id="emptyState" hidden><h3>No projects found.</h3><p>Try a different tool or project name.</p><button class="button button-outline" type="button" id="resetSearch">Clear filters</button></div>
+        <div class="work-bottom"><button class="button button-outline" id="showMore" type="button" aria-expanded="false" aria-controls="projectGrid" hidden>View all 13 projects <span aria-hidden="true">+</span></button><a class="text-link" href="https://github.com/Nitesh-Datascience?tab=repositories" target="_blank" rel="noopener noreferrer">All repositories on GitHub <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div>
       </div>
     </section>
 
-    <section class="section" id="skills">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="eyebrow">Capabilities</span>
-          <h2 class="section-title">Skills & Tools</h2>
-          <p class="section-subtitle">
-            A practical stack for data cleaning, analysis, reporting, visualization,
-            application development, and predictive modelling.
-          </p>
-        </div>
+    <section class="section skills-section" id="skills" aria-labelledby="skillsTitle"><div class="container skills-layout"><div class="skills-heading"><p class="eyebrow">02 / EXPERTISE</p><h2 id="skillsTitle">The tools matter.<br><span>The question<br>comes first.</span></h2><p>I connect data preparation, analysis, and communication to build work that people can use.</p><a class="text-link" href="resume.pdf" target="_blank" rel="noopener noreferrer">View my résumé <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div><div class="skill-rows">
+      <article class="skill-row"><span class="skill-number">01</span><div><h3>Query & prepare</h3><p>Clean, structure, and validate data before drawing conclusions.</p><ul class="tags"><li>SQL</li><li>Python</li><li>Pandas</li><li>Excel</li></ul></div><svg class="icon" aria-hidden="true"><use href="#i-layers"></use></svg></article>
+      <article class="skill-row"><span class="skill-number">02</span><div><h3>Analyze & explain</h3><p>Explore patterns and build reporting around meaningful business questions.</p><ul class="tags"><li>Power BI</li><li>Excel</li><li>EDA</li><li>KPI design</li></ul></div><svg class="icon" aria-hidden="true"><use href="#i-bars"></use></svg></article>
+      <article class="skill-row"><span class="skill-number">03</span><div><h3>Model & evaluate</h3><p>Compare learning approaches, establish baselines, and communicate limits.</p><ul class="tags"><li>scikit-learn</li><li>Forecasting</li><li>Clustering</li><li>Deep learning</li></ul></div><svg class="icon" aria-hidden="true"><use href="#i-trend"></use></svg></article>
+      <article class="skill-row"><span class="skill-number">04</span><div><h3>Build & share</h3><p>Turn analysis into interactive applications and documented projects.</p><ul class="tags"><li>Streamlit</li><li>Git & GitHub</li><li>Python</li><li>Documentation</li></ul></div><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></article>
+    </div></div></section>
 
-        <div class="skills-grid">
-          <article class="skill-card reveal">
-            <div class="skill-icon">Py</div>
-            <h3>Python</h3>
-            <p>Pandas, NumPy, automation, exploratory analysis, data pipelines, and application logic.</p>
-          </article>
+    <section class="section about-section" id="about" aria-labelledby="aboutTitle"><div class="container"><div class="section-heading"><div><p class="eyebrow">03 / ABOUT ME</p><h2 id="aboutTitle">A curious mind.<br><span>A practical approach.</span></h2></div><p class="section-description">A BCA graduate building a career in data analytics, business intelligence, and applied machine learning.</p></div><div class="about-layout"><div class="about-copy"><p class="about-lead">I enjoy finding the story in a dataset—and making it useful to someone else.</p><p>My projects span supply chains, retail demand, customer retention, and education. I work across data cleaning, exploratory analysis, dashboards, and model evaluation, with a focus on clear documentation and business context.</p><p>I’m looking for Data Analyst and MIS opportunities where I can contribute, keep learning, and turn questions into reliable analysis.</p><dl class="about-facts"><div><dt>Education</dt><dd>Bachelor of Computer Applications · 2025</dd></div><div><dt>Institute</dt><dd>Institute of Innovation in Technology and Management</dd></div><div><dt>Based in</dt><dd>Delhi, India · English & Hindi</dd></div></dl></div><div class="experience"><h3>Learning through practice</h3><article class="timeline-item"><span>2025 · ONE MONTH</span><h4>Data Science & Analytics Intern</h4><p>Zidio Development</p><p class="timeline-detail">Task-based analysis, project documentation, and communicating insights.</p></article><article class="timeline-item"><span>2024 · SUMMER TRAINING</span><h4>Data Science & ML Intern</h4><p>SHAPEMYSKILLS PRIVATE LIMITED</p><p class="timeline-detail">Six weeks of Python, preprocessing, model building, and result interpretation.</p></article><article class="timeline-item"><span>SIX-MONTH TRAINING</span><h4>Data Analytics & Python Development</h4><p>QSpiders</p><p class="timeline-detail">Python programming, analytics fundamentals, and development workflows.</p></article><details class="certifications"><summary>Additional learning <span aria-hidden="true">+</span></summary><p>Job simulations through Forage: J.P. Morgan Quantitative Research, Deloitte Australia Data Analytics, and Tata GenAI Powered Data Analytics. Additional training includes Microsoft Excel with AI and Artificial Intelligence Fundamentals.</p></details></div></div></div></section>
 
-          <article class="skill-card reveal">
-            <div class="skill-icon">SQL</div>
-            <h3>SQL</h3>
-            <p>Data extraction, joins, aggregations, KPI reporting, and business queries.</p>
-          </article>
+    <section class="section activity-section" id="github" aria-labelledby="activityTitle"><div class="container"><div class="section-heading"><div><p class="eyebrow">04 / BUILDING IN PUBLIC</p><h2 id="activityTitle">Always learning.<br><span>Still building.</span></h2></div><p class="section-description">Latest public repositories and account totals, refreshed from GitHub. Explore the code, documentation, and work in progress.</p></div><div class="github-panel"><div class="github-panel-top"><a class="github-profile" href="https://github.com/Nitesh-Datascience" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg><span>Nitesh-Datascience<small>Public GitHub profile</small></span><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><div class="github-totals"><div><strong id="repoTotal">—</strong><span>Public repositories</span></div><div><strong id="followerTotal">—</strong><span>Followers</span></div></div></div><div class="recent-repos" id="recentRepos"><div class="github-placeholder"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg><p>Explore the latest projects on <a href="https://github.com/Nitesh-Datascience?tab=repositories" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>.</p></div></div><div class="github-panel-bottom"><p id="githubStatus" role="status" aria-live="polite">Public data from GitHub</p><button class="refresh-button" id="refreshGitHub" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#i-refresh"></use></svg> Refresh</button></div></div><noscript><p class="section-note">Visit the GitHub profile above for current repository activity.</p></noscript><p class="section-note">Refreshes every five minutes while this page is visible. Recent results stay available if GitHub is temporarily unavailable.</p></div></section>
 
-          <article class="skill-card reveal">
-            <div class="skill-icon">XL</div>
-            <h3>Excel</h3>
-            <p>Advanced formulas, PivotTables, MIS reporting, data cleaning, and dashboards.</p>
-          </article>
-
-          <article class="skill-card reveal">
-            <div class="skill-icon">BI</div>
-            <h3>Power BI</h3>
-            <p>Interactive dashboards, data modelling, DAX measures, and management reporting.</p>
-          </article>
-
-          <article class="skill-card reveal">
-            <div class="skill-icon">ML</div>
-            <h3>Machine Learning</h3>
-            <p>Classification, regression, forecasting, model evaluation, and feature engineering.</p>
-          </article>
-
-          <article class="skill-card reveal">
-            <div class="skill-icon">DV</div>
-            <h3>Data Visualization</h3>
-            <p>Matplotlib, Plotly, storytelling, executive charts, and insight communication.</p>
-          </article>
-
-          <article class="skill-card reveal">
-            <div class="skill-icon">ST</div>
-            <h3>Streamlit</h3>
-            <p>Interactive analytics applications, filters, KPI cards, and cloud deployment.</p>
-          </article>
-
-          <article class="skill-card reveal">
-            <div class="skill-icon">AI</div>
-            <h3>AI & Deep Learning</h3>
-            <p>LSTM, transfer learning, ResNet-50, model experimentation, and AI prototypes.</p>
-          </article>
-
-          <article class="skill-card reveal">
-            <div class="skill-icon">GH</div>
-            <h3>Git & GitHub</h3>
-            <p>Version control, repository management, documentation, and GitHub Pages deployment.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="projects">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="eyebrow">Selected Work</span>
-          <h2 class="section-title">Featured Projects</h2>
-          <p class="section-subtitle">
-            Live applications and repositories that demonstrate analytics,
-            machine learning, dashboards, AI, and software development.
-          </p>
-        </div>
-
-        <div class="projects-grid">
-          <article class="project-card reveal">
-            <div class="project-top">
-              <span class="project-number">01</span>
-              <span class="project-badge">Live App</span>
-            </div>
-            <div class="project-content">
-              <h3>APL Logistics Analytics</h3>
-              <p>
-                Delivery performance, delay-risk, regional bottleneck, shipping-mode,
-                and logistics-efficiency analysis for global supply-chain operations.
-              </p>
-              <div class="tech-list">
-                <span>Python</span><span>Streamlit</span><span>Pandas</span><span>Analytics</span>
-              </div>
-              <div class="project-actions">
-                <a
-                  class="btn btn-primary btn-small"
-                  href="https://https---appcom-nitesh-datascience-apllogistics-464avyacan3btze.streamlit.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Live Demo</a>
-                <a
-                  class="btn btn-secondary btn-small"
-                  href="https://github.com/Nitesh-Datascience/APL_Logistics"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card reveal">
-            <div class="project-top">
-              <span class="project-number">02</span>
-              <span class="project-badge">Live App</span>
-            </div>
-            <div class="project-content">
-              <h3>PrivyScan AI</h3>
-              <p>
-                AI-powered privacy and risk-scanning prototype designed to identify
-                potentially sensitive content and support safer digital workflows.
-              </p>
-              <div class="tech-list">
-                <span>AI</span><span>Python</span><span>Streamlit</span><span>Privacy</span>
-              </div>
-              <div class="project-actions">
-                <a
-                  class="btn btn-primary btn-small"
-                  href="https://privyscan-ai-starter-afe9ltswbslgt9vkczfvxx.streamlit.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Live Demo</a>
-                <a
-                  class="btn btn-secondary btn-small"
-                  href="https://github.com/Nitesh-Datascience/PrivyScan-AI-Starter"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card reveal">
-            <div class="project-top">
-              <span class="project-number">03</span>
-              <span class="project-badge">Analytics</span>
-            </div>
-            <div class="project-content">
-              <h3>Care Transition Efficiency Analytics</h3>
-              <p>
-                Operational analysis of transfer efficiency, inflow, discharge,
-                backlog accumulation, placement outcomes, and bottleneck periods.
-              </p>
-              <div class="tech-list">
-                <span>Python</span><span>Streamlit</span><span>KPI</span><span>Operations</span>
-              </div>
-              <div class="project-actions">
-                <a
-                  class="btn btn-secondary btn-small"
-                  href="https://github.com/Nitesh-Datascience/care-transition-efficiency-analytics"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card reveal">
-            <div class="project-top">
-              <span class="project-number">04</span>
-              <span class="project-badge">Excel</span>
-            </div>
-            <div class="project-content">
-              <h3>Sales MIS Dashboard</h3>
-              <p>
-                Excel-based business reporting solution for sales, profit, regional
-                performance, KPI tracking, and management decision support.
-              </p>
-              <div class="tech-list">
-                <span>Excel</span><span>MIS</span><span>Dashboard</span><span>KPI</span>
-              </div>
-              <div class="project-actions">
-                <a
-                  class="btn btn-secondary btn-small"
-                  href="https://github.com/Nitesh-Datascience/Sales-MIS-Dashboard-Project-using-Excel"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card reveal">
-            <div class="project-top">
-              <span class="project-number">05</span>
-              <span class="project-badge">ML</span>
-            </div>
-            <div class="project-content">
-              <h3>NIFTY Prediction Using LSTM & ML</h3>
-              <p>
-                Historical market analysis and forecasting project using LSTM and
-                machine-learning algorithms on NIFTY data.
-              </p>
-              <div class="tech-list">
-                <span>LSTM</span><span>Machine Learning</span><span>Python</span><span>Time Series</span>
-              </div>
-              <div class="project-actions">
-                <a
-                  class="btn btn-secondary btn-small"
-                  href="https://github.com/Nitesh-Datascience/NIFTY-PREDICTION-USING-LSTM-AND-MACHINE-LEARNING-ALGORITHMS-FROM-2001-TO-12TH-JULY-2024"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card reveal">
-            <div class="project-top">
-              <span class="project-number">06</span>
-              <span class="project-badge">Customer Analytics</span>
-            </div>
-            <div class="project-content">
-              <h3>Telecom Customer Churn</h3>
-              <p>
-                Churn analysis focused on customer characteristics, risk patterns,
-                service usage, segmentation, and retention opportunities.
-              </p>
-              <div class="tech-list">
-                <span>Python</span><span>EDA</span><span>Churn</span><span>Business Insights</span>
-              </div>
-              <div class="project-actions">
-                <a
-                  class="btn btn-secondary btn-small"
-                  href="https://github.com/Nitesh-Datascience/Telcom_Customer"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card reveal">
-            <div class="project-top">
-              <span class="project-number">07</span>
-              <span class="project-badge">Behavior Analytics</span>
-            </div>
-            <div class="project-content">
-              <h3>Customer Shopping Behavior Analysis</h3>
-              <p>
-                Analysis of customer purchasing behaviour, trends, segments, and
-                product preferences for better commercial decisions.
-              </p>
-              <div class="tech-list">
-                <span>Python</span><span>Pandas</span><span>EDA</span><span>Retail</span>
-              </div>
-              <div class="project-actions">
-                <a
-                  class="btn btn-secondary btn-small"
-                  href="https://github.com/Nitesh-Datascience/Customer-Shopping-Behavior-Analysis"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card reveal">
-            <div class="project-top">
-              <span class="project-number">08</span>
-              <span class="project-badge">IoT</span>
-            </div>
-            <div class="project-content">
-              <h3>Smart Water Tank Monitoring</h3>
-              <p>
-                IoT-based monitoring system for tracking water levels, reducing
-                overflow, and supporting smarter water management.
-              </p>
-              <div class="tech-list">
-                <span>IoT</span><span>Sensors</span><span>Automation</span><span>Monitoring</span>
-              </div>
-              <div class="project-actions">
-                <a
-                  class="btn btn-secondary btn-small"
-                  href="https://github.com/Nitesh-Datascience/IOT-BASED-Smart-Water-Tank-Monitoring-System"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card reveal">
-            <div class="project-top">
-              <span class="project-number">09</span>
-              <span class="project-badge">Deep Learning</span>
-            </div>
-            <div class="project-content">
-              <h3>Transfer Learning with ResNet-50</h3>
-              <p>
-                Deep-learning project using transfer learning and ResNet-50 for
-                efficient image-classification experimentation.
-              </p>
-              <div class="tech-list">
-                <span>ResNet-50</span><span>Transfer Learning</span><span>AI</span><span>Python</span>
-              </div>
-              <div class="project-actions">
-                <a
-                  class="btn btn-secondary btn-small"
-                  href="https://github.com/Nitesh-Datascience/Transfer-Learning-Resnet-50"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Repository</a>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <div class="btn-row" style="justify-content:center; margin-top:34px;">
-          <a
-            class="btn btn-primary"
-            href="https://github.com/Nitesh-Datascience?tab=repositories"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View All GitHub Repositories
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="github">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="eyebrow">Developer Activity</span>
-          <h2 class="section-title">GitHub Statistics</h2>
-          <p class="section-subtitle">
-            These cards use public third-party services. A profile link is displayed
-            automatically when a service is temporarily unavailable.
-          </p>
-        </div>
-
-        <div class="stats-grid">
-          <div class="stats-card reveal">
-            <img
-              src="https://github-readme-stats.vercel.app/api?username=Nitesh-Datascience&show_icons=true&theme=tokyonight&hide_border=true&include_all_commits=true&cache_seconds=86400"
-              alt="Nitesh Kumar GitHub statistics"
-              loading="lazy"
-              onerror="showStatsFallback(this)"
-            />
-            <div class="stats-fallback">
-              <h3>GitHub Stats Temporarily Unavailable</h3>
-              <p>Open the GitHub profile to view repositories and recent activity.</p>
-              <a
-                class="btn btn-primary btn-small"
-                href="https://github.com/Nitesh-Datascience"
-                target="_blank"
-                rel="noopener noreferrer"
-              >Open GitHub</a>
-            </div>
-          </div>
-
-          <div class="stats-card reveal">
-            <img
-              src="https://github-readme-stats.vercel.app/api/top-langs/?username=Nitesh-Datascience&layout=compact&theme=tokyonight&hide_border=true&langs_count=8&cache_seconds=86400"
-              alt="Nitesh Kumar most used programming languages"
-              loading="lazy"
-              onerror="showStatsFallback(this)"
-            />
-            <div class="stats-fallback">
-              <h3>Language Card Temporarily Unavailable</h3>
-              <p>Browse the repositories to see the complete technical stack.</p>
-              <a
-                class="btn btn-primary btn-small"
-                href="https://github.com/Nitesh-Datascience?tab=repositories"
-                target="_blank"
-                rel="noopener noreferrer"
-              >View Repositories</a>
-            </div>
-          </div>
-
-          <div class="stats-card stats-card-wide reveal">
-            <img
-              src="https://streak-stats.demolab.com?user=Nitesh-Datascience&theme=tokyonight&hide_border=true"
-              alt="Nitesh Kumar GitHub contribution streak"
-              loading="lazy"
-              onerror="showStatsFallback(this)"
-            />
-            <div class="stats-fallback">
-              <h3>Contribution Streak Temporarily Unavailable</h3>
-              <p>The external contribution service may be rate-limited. Your portfolio remains available.</p>
-              <a
-                class="btn btn-primary btn-small"
-                href="https://github.com/Nitesh-Datascience"
-                target="_blank"
-                rel="noopener noreferrer"
-              >View Activity</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="feedback">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="eyebrow">Help Me Improve</span>
-          <h2 class="section-title">Portfolio Feedback</h2>
-          <p class="section-subtitle">
-            Share practical feedback about my projects, design, documentation, or
-            suitability for professional opportunities.
-          </p>
-        </div>
-
-        <div class="feedback-grid">
-          <aside class="glass-card feedback-copy reveal">
-            <h3>Your feedback matters.</h3>
-            <p>
-              This static GitHub Pages form opens your email application with a
-              pre-filled message, so no backend or database is required.
-            </p>
-
-            <div class="feedback-points">
-              <div class="feedback-point">
-                <span>✓</span>
-                <div>Review project quality and business relevance.</div>
-              </div>
-              <div class="feedback-point">
-                <span>✓</span>
-                <div>Suggest improvements for design and user experience.</div>
-              </div>
-              <div class="feedback-point">
-                <span>✓</span>
-                <div>Share internship, freelance, collaboration, or job opportunities.</div>
-              </div>
-            </div>
-          </aside>
-
-          <form class="glass-card feedback-form reveal" id="feedbackForm">
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="feedbackName">Your name *</label>
-                <input
-                  id="feedbackName"
-                  name="name"
-                  type="text"
-                  placeholder="Enter your name"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="feedbackEmail">Your email</label>
-                <input
-                  id="feedbackEmail"
-                  name="email"
-                  type="email"
-                  placeholder="name@example.com"
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="feedbackType">Feedback type *</label>
-                <select id="feedbackType" name="type" required>
-                  <option value="">Select an option</option>
-                  <option>Portfolio Design</option>
-                  <option>Project Quality</option>
-                  <option>Documentation</option>
-                  <option>Job Opportunity</option>
-                  <option>Collaboration</option>
-                  <option>Other</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="feedbackRating">Portfolio rating *</label>
-                <select id="feedbackRating" name="rating" required>
-                  <option value="">Choose rating</option>
-                  <option>5 - Excellent</option>
-                  <option>4 - Very Good</option>
-                  <option>3 - Good</option>
-                  <option>2 - Needs Improvement</option>
-                  <option>1 - Major Improvement Needed</option>
-                </select>
-              </div>
-
-              <div class="form-group full">
-                <label for="feedbackProject">Project reviewed</label>
-                <input
-                  id="feedbackProject"
-                  name="project"
-                  type="text"
-                  placeholder="Example: APL Logistics Analytics"
-                />
-              </div>
-
-              <div class="form-group full">
-                <label for="feedbackMessage">Your feedback *</label>
-                <textarea
-                  id="feedbackMessage"
-                  name="message"
-                  placeholder="Write what you liked and what I should improve..."
-                  required
-                ></textarea>
-              </div>
-
-              <div class="form-group full">
-                <button class="btn btn-primary" type="submit">Send Feedback by Email</button>
-                <p class="form-note">
-                  Your default email application will open with the feedback already prepared.
-                </p>
-                <div class="form-status" id="formStatus">
-                  Your feedback message has been prepared. Please send it from your email application.
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="contact">
-      <div class="container">
-        <div class="glass-card contact-card reveal">
-          <div>
-            <span class="eyebrow">Let’s Connect</span>
-            <h2>Have a role, project, or collaboration in mind?</h2>
-            <p>
-              Email: ns0762005@gmail.com &nbsp; | &nbsp; Phone: +91 9650410697
-            </p>
-          </div>
-
-          <div class="contact-links">
-            <a
-              href="mailto:ns0762005@gmail.com"
-              class="btn btn-primary"
-            >Email Me</a>
-            <a
-              href="https://www.linkedin.com/in/niteshkumar-codlytic"
-              class="btn btn-secondary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >LinkedIn</a>
-            <a
-              href="https://github.com/Nitesh-Datascience"
-              class="btn btn-secondary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >GitHub</a>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="section contact-section" id="contact" aria-labelledby="contactTitle"><div class="container contact-layout"><div class="contact-copy"><p class="eyebrow">05 / LET’S CONNECT</p><h2 id="contactTitle">Have a question<br>that needs <span>data?</span></h2><p>Let’s talk about a role, a project, or a useful idea. I’m open to Data Analyst and MIS opportunities, collaborations, and thoughtful feedback.</p><a class="email-link" href="mailto:ns0762005@gmail.com">ns0762005@gmail.com <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><button class="copy-email" id="copyEmail" type="button" hidden>Copy email address</button><p class="copy-status" id="copyStatus" role="status" aria-live="polite"></p><div class="contact-socials"><a href="https://www.linkedin.com/in/niteshkumar-codlytic" target="_blank" rel="noopener noreferrer">LinkedIn <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a><a href="https://github.com/Nitesh-Datascience" target="_blank" rel="noopener noreferrer">GitHub <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a></div></div><div class="contact-form-wrap" id="feedback"><form id="contactForm" hidden><h3>Start a conversation</h3><div class="form-row"><div class="form-field"><label for="contactName">Your name</label><input id="contactName" name="name" autocomplete="name" placeholder="Full name" required maxlength="100"></div><div class="form-field"><label for="contactEmail">Email address</label><input id="contactEmail" name="email" type="email" autocomplete="email" placeholder="you@company.com" required maxlength="254"></div></div><div class="form-field"><label for="contactPurpose">I’d like to discuss</label><select id="contactPurpose" name="purpose"><option>A job opportunity</option><option>A data project</option><option>Portfolio feedback</option><option>A collaboration</option></select></div><div class="form-field"><label for="contactMessage">Your message</label><textarea id="contactMessage" name="message" rows="5" placeholder="Tell me a little about what you have in mind…" minlength="10" maxlength="3000" required></textarea></div><div class="form-actions"><button class="button button-primary" type="submit">Prepare email <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></button><button class="text-link" id="copyDraft" type="button">Copy message</button></div><p class="form-note">Review and send in your email app, or copy the message to your preferred inbox.</p><p id="formStatus" class="form-status" role="status" aria-live="polite"></p></form><noscript><h3>Let’s start a conversation.</h3><p>Email me directly at <a href="mailto:ns0762005@gmail.com">ns0762005@gmail.com</a>. You can also connect on LinkedIn.</p></noscript></div></div></section>
   </main>
 
-  <footer>
-    <div class="container">
-      © <span id="currentYear"></span> Nitesh Kumar · Data Analyst Portfolio ·
-      <a href="#home">Back to top</a>
-    </div>
-  </footer>
-
-  <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.getElementById("navLinks");
-
-    menuToggle.addEventListener("click", () => {
-      const isOpen = navLinks.classList.toggle("open");
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
-      menuToggle.textContent = isOpen ? "✕" : "☰";
-    });
-
-    document.querySelectorAll(".nav-links a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("open");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.textContent = "☰";
-      });
-    });
-
-    function showProfileFallback() {
-      const image = document.getElementById("profileImage");
-      const fallback = document.getElementById("profileFallback");
-
-      image.style.display = "none";
-      fallback.style.display = "grid";
-    }
-
-    function showStatsFallback(image) {
-      image.style.display = "none";
-
-      const fallback = image.parentElement.querySelector(".stats-fallback");
-      if (fallback) {
-        fallback.style.display = "block";
-      }
-    }
-
-    const feedbackForm = document.getElementById("feedbackForm");
-    const formStatus = document.getElementById("formStatus");
-
-    feedbackForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      if (!feedbackForm.checkValidity()) {
-        feedbackForm.reportValidity();
-        return;
-      }
-
-      const name = document.getElementById("feedbackName").value.trim();
-      const email = document.getElementById("feedbackEmail").value.trim();
-      const type = document.getElementById("feedbackType").value;
-      const rating = document.getElementById("feedbackRating").value;
-      const project = document.getElementById("feedbackProject").value.trim();
-      const message = document.getElementById("feedbackMessage").value.trim();
-
-      const subject = encodeURIComponent(`Portfolio Feedback - ${type}`);
-      const body = encodeURIComponent(
-`Hi Nitesh,
-
-I reviewed your portfolio and would like to share the following feedback.
-
-Name: ${name}
-Email: ${email || "Not provided"}
-Feedback Type: ${type}
-Rating: ${rating}
-Project Reviewed: ${project || "General portfolio"}
-
-Feedback:
-${message}
-
-Regards,
-${name}`
-      );
-
-      formStatus.style.display = "block";
-
-      window.location.href =
-        `mailto:ns0762005@gmail.com?subject=${subject}&body=${body}`;
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-
-    document.querySelectorAll(".reveal").forEach((element) => {
-      observer.observe(element);
-    });
-
-    document.getElementById("currentYear").textContent =
-      new Date().getFullYear();
-  </script>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand-mark" href="#home" aria-label="Back to Nitesh Kumar home">nk<span>.</span></a><p>© <span id="currentYear">2026</span> Nitesh Kumar<span class="footer-divider">/</span> Built with curiosity. Shared with purpose.</p><a class="text-link" href="#home">Back to top <span aria-hidden="true">↑</span></a></div></footer>
+  <script type="module" src="app.js?v=20261014"></script>
 </body>
 </html>
