@@ -7,8 +7,54 @@ export function filterProjects(projects, category = 'all', query = '') {
   const terms = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
   return projects.filter(project => {
     const haystack = [project.title, project.subtitle, project.categoryLabel, project.description, ...(project.tags || [])].join(' ').toLocaleLowerCase();
-    return (category === 'all' || project.category === category) && terms.every(term => haystack.includes(term));
+    return (category === 'all' || (category === 'live' ? Boolean(project.demo) : project.category === category)) && terms.every(term => haystack.includes(term));
   });
+}
+
+export function sortProjects(projects, order = 'featured') {
+  const sorted = [...projects];
+  if (order === 'name') sorted.sort((a, b) => a.title.localeCompare(b.title, 'en'));
+  if (order === 'demo') sorted.sort((a, b) => Number(Boolean(b.demo)) - Number(Boolean(a.demo)));
+  return sorted;
+}
+
+export function readProjectState(url) {
+  const params = new URL(url).searchParams;
+  const category = params.get('category');
+  const sort = params.get('sort');
+  return {
+    category: ['all', 'live', 'analytics', 'ml', 'ai'].includes(category) ? category : 'all',
+    query: (params.get('q') || '').slice(0, 160),
+    sort: ['featured', 'name', 'demo'].includes(sort) ? sort : 'featured',
+    expanded: params.get('view') === 'all',
+  };
+}
+
+export function projectStateURL(url, state) {
+  const result = new URL(url);
+  for (const key of ['category', 'q', 'sort', 'view']) result.searchParams.delete(key);
+  if (state.category !== 'all') result.searchParams.set('category', state.category);
+  if (state.query.trim()) result.searchParams.set('q', state.query.trim().slice(0, 160));
+  if (state.sort !== 'featured') result.searchParams.set('sort', state.sort);
+  if (state.expanded) result.searchParams.set('view', 'all');
+  return result;
+}
+
+export function projectLink(url, id) {
+  if (!/^[a-z0-9-]+$/.test(id)) throw new Error('Invalid project ID');
+  const result = new URL(url); result.search = ''; result.hash = `project-${id}`;
+  return result.href;
+}
+
+export function githubRetryAt(headers, now = Date.now()) {
+  const retry = headers?.get?.('retry-after');
+  const remaining = headers?.get?.('x-ratelimit-remaining');
+  const reset = headers?.get?.('x-ratelimit-reset');
+  let retryAt = now + 60_000;
+  if (retry && /^\d+$/.test(retry)) retryAt = Math.max(retryAt, now + Number(retry) * 1000);
+  else if (retry && Number.isFinite(Date.parse(retry))) retryAt = Math.max(retryAt, Date.parse(retry));
+  if (remaining === '0' && reset && /^\d+$/.test(reset)) retryAt = Math.max(retryAt, Number(reset) * 1000 + 1000);
+  return Number.isSafeInteger(retryAt) ? retryAt : now + CACHE_TTL;
 }
 
 export function createEmailDraft({ name, email, purpose, message }) {
@@ -49,14 +95,18 @@ export async function fetchGitHubSnapshot(fetcher = globalThis.fetch, now = Date
     const timeout = setTimeout(() => controller.abort(), 8000);
     try {
       const response = await fetcher(url, { headers: { Accept: 'application/vnd.github+json' }, signal: controller.signal });
-      if (!response.ok) throw new Error(response.status === 403 || response.status === 429 ? 'GitHub refresh limit reached' : 'GitHub is temporarily unavailable');
+      if (!response.ok) {
+        const limited = response.status === 403 || response.status === 429;
+        const error = new Error(limited ? 'GitHub refresh limit reached' : 'GitHub is temporarily unavailable');
+        if (limited) { error.code = 'RATE_LIMITED'; error.retryAt = githubRetryAt(response.headers, now); }
+        throw error;
+      }
       return await response.json();
     } finally { clearTimeout(timeout); }
   };
-  const [profile, repositories] = await Promise.all([
-    request(`https://api.github.com/users/${GITHUB_USER}`),
-    request(`https://api.github.com/users/${GITHUB_USER}/repos?sort=pushed&per_page=100`),
-  ]);
+  // Sequential reads avoid a second request when the profile endpoint is rate-limited.
+  const profile = await request(`https://api.github.com/users/${GITHUB_USER}`);
+  const repositories = await request(`https://api.github.com/users/${GITHUB_USER}/repos?sort=pushed&per_page=100`);
   return normalizeSnapshot(profile, repositories, now);
 }
 

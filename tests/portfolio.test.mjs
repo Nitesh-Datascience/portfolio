@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { projects } from '../content/projects.mjs';
-import { CACHE_KEY, CACHE_TTL, GITHUB_USER, createEmailDraft, fetchGitHubSnapshot, filterProjects, normalizeSnapshot, readSnapshot } from '../portfolio-core.mjs';
+import { CACHE_KEY, CACHE_TTL, GITHUB_USER, createEmailDraft, fetchGitHubSnapshot, filterProjects, githubRetryAt, normalizeSnapshot, projectLink, projectStateURL, readProjectState, readSnapshot, sortProjects } from '../portfolio-core.mjs';
 
 const now = Date.parse('2026-10-14T06:00:00Z');
 const profile = { login: GITHUB_USER, public_repos: 42, followers: 5 };
@@ -107,4 +107,47 @@ test('expired, future, corrupt, and inaccessible cache entries are discarded', (
   assert.equal(readSnapshot(storage(JSON.stringify({ ...snapshot, repos: [null] })), now), null);
   assert.equal(readSnapshot({ getItem() { throw new Error('Blocked'); } }, now), null);
   assert.equal(readSnapshot(undefined, now), null);
+});
+
+test('demo filter and project sorting retain original data and stable order', () => {
+  const original = projects.map(project => project.id);
+  assert.equal(filterProjects(projects, 'live').length, 7);
+  assert.deepEqual(filterProjects(projects, 'live', 'learning').map(project => project.id), ['churn', 'edupro', 'fraud']);
+  const sorted = sortProjects(projects, 'name');
+  assert.equal(sorted[0].id, 'logistics');
+  assert.equal(sorted.at(-1).id, 'telecom');
+  assert.ok(sortProjects(projects, 'demo').slice(0, 7).every(project => project.demo));
+  assert.deepEqual(projects.map(project => project.id), original);
+});
+
+test('project search and sort survive a shareable URL without losing unrelated parameters', () => {
+  const state = { category: 'ml', query: ' Python & SQL ', sort: 'name', expanded: true };
+  const url = projectStateURL('https://example.com/portfolio/?ref=profile#projects', state);
+  assert.equal(url.searchParams.get('ref'), 'profile');
+  assert.equal(url.hash, '#projects');
+  assert.deepEqual(readProjectState(url), { ...state, query: state.query.trim() });
+  const clean = projectStateURL(url, { category: 'all', query: '', sort: 'featured', expanded: false });
+  assert.equal(clean.search, '?ref=profile');
+  assert.deepEqual(readProjectState('https://example.com/?category=bad&sort=bad&q=' + 'a'.repeat(200)), { category: 'all', query: 'a'.repeat(160), sort: 'featured', expanded: false });
+});
+
+test('project links target the exact case study independently of active filters', () => {
+  assert.equal(projectLink('https://example.com/portfolio/?category=ml&q=churn#github', 'water'), 'https://example.com/portfolio/#project-water');
+  assert.throws(() => projectLink('https://example.com/', '../wrong'));
+});
+
+test('GitHub retry timing respects primary resets, Retry-After, and malformed headers', () => {
+  assert.equal(githubRetryAt(new Headers({ 'retry-after': '120' }), now), now + 120_000);
+  assert.equal(githubRetryAt(new Headers({ 'x-ratelimit-remaining': '0', 'x-ratelimit-reset': String((now + 3_600_000) / 1000) }), now), now + 3_601_000);
+  assert.equal(githubRetryAt(new Headers({ 'retry-after': new Date(now + 120_000).toUTCString() }), now), now + 120_000);
+  assert.equal(githubRetryAt(new Headers({ 'retry-after': 'invalid', 'x-ratelimit-reset': 'NaN' }), now), now + 60_000);
+});
+
+test('a rate-limited profile read prevents a second API request and carries retry timing', async () => {
+  let requests = 0;
+  await assert.rejects(fetchGitHubSnapshot(async () => {
+    requests += 1;
+    return { ok: false, status: 429, headers: new Headers({ 'retry-after': '300' }) };
+  }, now), error => error.code === 'RATE_LIMITED' && error.retryAt === now + 300_000);
+  assert.equal(requests, 1);
 });

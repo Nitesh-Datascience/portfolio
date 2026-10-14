@@ -1,5 +1,6 @@
 import { projects } from './content/projects.mjs';
-import { CACHE_KEY, CACHE_TTL, EMAIL, createEmailDraft, fetchGitHubSnapshot, filterProjects, readSnapshot } from './portfolio-core.mjs';
+import { CACHE_KEY, EMAIL, createEmailDraft, fetchGitHubSnapshot, filterProjects, projectLink, projectStateURL, readProjectState, readSnapshot, sortProjects } from './portfolio-core.mjs?v=20261014.2';
+import { RefreshController } from './refresh-controller.mjs?v=20261014.2';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -64,20 +65,26 @@ function initNavigation() {
 
 function initProjects() {
   const search = $('#projectSearch');
+  const sort = $('#projectSort');
   const buttons = $$('[data-filter]');
   const cards = $$('[data-project]');
+  const cardById = new Map(cards.map(card => [card.dataset.project, card]));
+  const grid = $('#projectGrid');
   const more = $('#showMore');
   const count = $('#projectCount');
   const empty = $('#emptyState');
   const initialLimit = 8;
-  let category = 'all';
-  let expanded = false;
-  const update = () => {
-    const matches = filterProjects(projects, category, search.value);
-    const isFiltered = category !== 'all' || search.value.trim() !== '';
+  let state = readProjectState(window.location.href);
+  let { category, expanded } = state;
+  search.value = state.query; sort.value = state.sort;
+  const update = (persist = true, clearAnchor = false) => {
+    const matches = sortProjects(filterProjects(projects, category, search.value), sort.value);
+    const isFiltered = category !== 'all' || search.value.trim() !== '' || sort.value !== 'featured';
+    grid.classList.toggle('is-browsing', isFiltered);
     const visible = expanded || isFiltered ? matches : matches.slice(0, initialLimit);
     const ids = new Set(visible.map(project => project.id));
     cards.forEach(card => { card.hidden = !ids.has(card.dataset.project); });
+    sortProjects(projects, sort.value).forEach(project => grid.append(cardById.get(project.id)));
     const demoCount = matches.filter(project => project.demo).length;
     count.textContent = `${visible.length < matches.length ? `Showing ${visible.length} of ${matches.length}` : matches.length} project${matches.length === 1 ? '' : 's'} · ${demoCount} demo link${demoCount === 1 ? '' : 's'}`;
     empty.hidden = matches.length !== 0;
@@ -89,12 +96,55 @@ function initProjects() {
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
     });
+    if (persist) {
+      const url = projectStateURL(window.location.href, { category, query: search.value, sort: sort.value, expanded });
+      if (clearAnchor && url.hash.startsWith('#project-')) url.hash = '';
+      try { history.replaceState(null, '', url.pathname + url.search + url.hash); } catch {}
+    }
   };
-  buttons.forEach(button => button.addEventListener('click', () => { category = button.dataset.filter; update(); }));
-  search.addEventListener('input', update);
-  more.addEventListener('click', () => { expanded = !expanded; update(); });
-  $('#resetSearch').addEventListener('click', () => { category = 'all'; search.value = ''; expanded = false; update(); search.focus(); });
-  update();
+  function revealLinkedProject() {
+    const id = window.location.hash.replace(/^#project-/, '');
+    const card = window.location.hash.startsWith('#project-') ? cardById.get(id) : null;
+    if (!card) return;
+    category = 'all'; expanded = true; search.value = ''; sort.value = 'featured'; update();
+    card.querySelector('details').open = true;
+    requestAnimationFrame(() => {
+      card.scrollIntoView({ block: 'start', behavior: 'auto' });
+      card.querySelector('summary').focus({ preventScroll: true });
+    });
+  }
+  buttons.forEach(button => button.addEventListener('click', () => { category = button.dataset.filter; update(true, true); }));
+  search.addEventListener('input', () => update(true, true));
+  sort.addEventListener('change', () => update(true, true));
+  more.addEventListener('click', () => { expanded = !expanded; update(true, true); });
+  $('#resetSearch').addEventListener('click', () => { category = 'all'; search.value = ''; sort.value = 'featured'; expanded = false; update(true, true); search.focus(); });
+  $$('[data-share-project]').forEach(button => {
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      const id = button.dataset.shareProject;
+      const url = projectLink(window.location.href, id);
+      const title = projects.find(project => project.id === id).title;
+      try {
+        await navigator.clipboard.writeText(url);
+        $('#projectShareStatus').textContent = `Link to ${title} copied.`;
+      } catch {
+        const card = cardById.get(id);
+        let field = card.querySelector('.project-link-field');
+        if (!field) {
+          field = document.createElement('input'); field.type = 'text'; field.readOnly = true; field.className = 'project-link-field';
+          field.setAttribute('aria-label', `Shareable link to ${title}`); card.querySelector('.project-actions').after(field);
+        }
+        field.value = url; field.focus(); field.select();
+        $('#projectShareStatus').textContent = `Link to ${title} selected. Use your device’s Copy command.`;
+      }
+    });
+  });
+  window.addEventListener('hashchange', revealLinkedProject);
+  window.addEventListener('popstate', () => {
+    state = readProjectState(window.location.href); category = state.category; expanded = state.expanded;
+    search.value = state.query; sort.value = state.sort; update(false); revealLinkedProject();
+  });
+  update(false); revealLinkedProject();
   $('#projectToolbar').hidden = false;
 }
 
@@ -108,14 +158,17 @@ function createIcon(name) {
 
 function initGitHub() {
   const button = $('#refreshGitHub');
+  const pause = $('#toggleAutoRefresh');
   const status = $('#githubStatus');
+  const connection = $('#githubConnection');
+  const schedule = $('#githubSchedule');
   let storage;
   try { storage = localStorage; } catch {}
-  let snapshot = readSnapshot(storage);
-  let lastAttempt = -Infinity;
-  let pending = false;
-  let started = false;
+  const snapshot = readSnapshot(storage);
+  let renderedSnapshot;
+  let viewed = false;
   const dateTime = timestamp => new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(timestamp));
+  const timeOnly = timestamp => new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' }).format(new Date(timestamp));
   function render(value) {
     $('#repoTotal').textContent = value.publicRepos.toLocaleString();
     $('#followerTotal').textContent = value.followers.toLocaleString();
@@ -123,7 +176,7 @@ function initGitHub() {
     value.repos.forEach(repo => {
       const article = document.createElement('article'); article.className = 'recent-repo';
       const link = document.createElement('a'); link.href = repo.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
-      const title = document.createElement('h3'); title.textContent = repo.name.replace(/^https---github\.com-Nitesh-Datascience-/, '').replace(/[_-]+/g, ' ');
+      const title = document.createElement('h3'); title.textContent = projects.find(project => project.repo === repo.name)?.title || repo.name.replace(/^https---github\.com-Nitesh-Datascience-/, '').replace(/[_-]+/g, ' ');
       link.append(title, createIcon('arrow-up-right'));
       const description = document.createElement('p'); description.textContent = repo.description;
       const meta = document.createElement('div'); meta.className = 'repo-meta';
@@ -134,45 +187,62 @@ function initGitHub() {
       time.textContent = `Last pushed ${new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(new Date(repo.pushedAt))}`;
       article.append(link, description, meta, time); fragment.append(article);
     });
-    if (value.repos.length) $('#recentRepos').replaceChildren(fragment);
-  }
-  if (snapshot) { render(snapshot); status.textContent = `Saved snapshot · ${dateTime(snapshot.fetchedAt)}`; }
-  async function refresh(manual = false) {
-    const now = Date.now();
-    if (pending) return;
-    if (manual && now - lastAttempt < 60_000) {
-      status.textContent = `Please wait ${Math.ceil((60_000 - (now - lastAttempt)) / 1000)} seconds before refreshing again.${snapshot ? ` Data from ${dateTime(snapshot.fetchedAt)}.` : ''}`;
-      return;
+    if (!value.repos.length) {
+      const placeholder = document.createElement('p'); placeholder.className = 'github-placeholder';
+      placeholder.textContent = 'No recent original repositories to display. Explore the GitHub profile above.';
+      fragment.append(placeholder);
     }
-    if (!manual && now - lastAttempt < 60_000) return;
-    if (!manual && snapshot && now - snapshot.fetchedAt < CACHE_TTL) return;
-    pending = true; lastAttempt = now; button.disabled = true; button.setAttribute('aria-busy', 'true');
-    status.textContent = 'Refreshing public GitHub data…';
-    try {
-      snapshot = await fetchGitHubSnapshot();
-      render(snapshot);
-      try { storage?.setItem(CACHE_KEY, JSON.stringify(snapshot)); } catch {}
-      status.textContent = `Updated ${dateTime(snapshot.fetchedAt)} · auto-refresh on`;
-    } catch (error) {
-      const reason = error?.message === 'GitHub refresh limit reached' ? 'GitHub refresh limit reached.' : 'GitHub is temporarily unavailable.';
-      status.textContent = snapshot ? `${reason} Showing saved data from ${dateTime(snapshot.fetchedAt)}.` : `${reason} Open the profile above or try Refresh later.`;
-    } finally { pending = false; button.disabled = false; button.removeAttribute('aria-busy'); }
+    $('#recentRepos').replaceChildren(fragment);
   }
-  function start() {
-    if (started) return;
-    started = true;
-    refresh();
-    setInterval(() => { if (!document.hidden) refresh(); }, CACHE_TTL);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+  function onChange(state) {
+    if (state.snapshot && state.snapshot !== renderedSnapshot) { render(state.snapshot); renderedSnapshot = state.snapshot; }
+    const saved = state.snapshot ? `Data from ${dateTime(state.snapshot.fetchedAt)}.` : 'Open the GitHub profile for more.';
+    let label = state.snapshot ? state.source === 'live' ? 'Updated' : 'Saved data' : 'Ready';
+    let text = state.snapshot ? `${state.source === 'live' ? 'Updated' : 'Saved snapshot'} · ${dateTime(state.snapshot.fetchedAt)}` : 'Public data from GitHub';
+    let mode = state.snapshot ? state.source : 'ready';
+    if (state.error === 'unavailable') { label = state.snapshot ? 'Saved data' : 'Unavailable'; mode = 'waiting'; text = `GitHub is temporarily unavailable. ${saved}`; }
+    if (state.notice === 'cooldown') text = `Refresh available after ${timeOnly(state.manualAt)}. ${saved}`;
+    if (state.error === 'rate') { label = 'Waiting'; mode = 'waiting'; text = `GitHub refresh limit reached. Retry after ${timeOnly(state.retryAt)}. ${saved}`; }
+    if (state.paused) { label = 'Paused'; mode = 'paused'; text = `Automatic updates paused. ${saved}`; }
+    if (!state.online) { label = 'Offline'; mode = 'offline'; text = `You’re offline. ${saved}`; }
+    if (state.pending) { label = 'Refreshing'; mode = 'loading'; text = 'Refreshing public GitHub activity…'; }
+    connection.textContent = label; connection.dataset.state = mode;
+    if (status.textContent !== text) status.textContent = text;
+    button.disabled = state.pending || !state.online;
+    button.toggleAttribute('aria-busy', state.pending);
+    if (state.pending) button.setAttribute('aria-busy', 'true');
+    pause.textContent = state.paused ? 'Resume updates' : 'Pause updates';
+    if (state.pending) schedule.textContent = 'Refreshing now';
+    else if (state.paused) schedule.textContent = 'Auto refresh paused';
+    else if (!state.online) schedule.textContent = 'Updates resume when online';
+    else if (!state.visible) schedule.textContent = 'Updates resume when this page is visible';
+    else if (state.started) schedule.textContent = `Next update ${timeOnly(state.dueAt)}`;
+    else schedule.textContent = 'Automatic updates every five minutes';
   }
-  button.addEventListener('click', () => { start(); refresh(true); });
-  button.hidden = false;
+  const controller = new RefreshController({
+    snapshot, onChange, online: navigator.onLine !== false, visible: !document.hidden,
+    load: async () => {
+      const value = await fetchGitHubSnapshot();
+      try { storage?.setItem(CACHE_KEY, JSON.stringify(value)); } catch {}
+      return value;
+    },
+  });
+  controller.emit();
+  button.addEventListener('click', () => { viewed = true; controller.refresh(true); });
+  pause.addEventListener('click', () => controller.setPaused(!controller.getState().paused));
+  document.addEventListener('visibilitychange', () => controller.setVisible(!document.hidden));
+  window.addEventListener('online', () => controller.setOnline(true));
+  window.addEventListener('offline', () => controller.setOnline(false));
+  window.addEventListener('pagehide', () => controller.stop());
+  window.addEventListener('pageshow', () => { if (viewed) controller.start(); });
+  $('#githubLiveControls').hidden = false;
+  button.hidden = false; pause.hidden = false;
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) { start(); observer.disconnect(); }
+      if (entries.some(entry => entry.isIntersecting)) { viewed = true; controller.start(); observer.disconnect(); }
     }, { rootMargin: '100px' });
     observer.observe($('#github'));
-  } else start();
+  } else { viewed = true; controller.start(); }
 }
 
 function initContact() {

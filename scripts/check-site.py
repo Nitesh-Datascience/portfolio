@@ -10,7 +10,7 @@ class Page(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.ids, self.anchors, self.uses, self.files, self.labels, self.fields = [], [], [], [], [], []
-        self.projects, self.demos, self.h1, self.images = 0, 0, 0, []
+        self.projects, self.demos, self.shares, self.h1, self.images = 0, 0, 0, 0, []
         self.external = []
 
     def handle_starttag(self, tag, attrs):
@@ -27,6 +27,9 @@ class Page(HTMLParser):
             self.h1 += 1
         if tag == 'label':
             self.labels.append(a.get('for'))
+        if 'data-share-project' in a:
+            self.shares += 1
+            assert a.get('aria-label'), 'Share control needs an accessible label'
         if tag in ('input', 'textarea', 'select'):
             self.fields.append(a.get('id'))
         if tag == 'img':
@@ -51,6 +54,8 @@ assert set(page.fields) <= set(page.labels), 'Unlabelled input'
 assert all('noopener' in a.get('rel', '') for a in page.external), 'Unsafe external window'
 assert all(a.get('alt') and a.get('width') and a.get('height') for a in page.images), 'Image metadata missing'
 assert page.projects == 13 and page.demos == 7, 'Unexpected project counts'
+assert page.shares == page.projects, 'Every project needs a share control'
+assert {'projectSort', 'githubConnection', 'githubSchedule', 'toggleAutoRefresh'} <= set(page.ids), 'Missing gallery/live controls'
 assert '{{' not in html, 'Unresolved template token'
 assert 'prefers-reduced-motion' in (ROOT / 'styles.css').read_text(), 'Motion preference missing'
 assert 'aria-live="polite"' in html and 'Skip to content' in html
