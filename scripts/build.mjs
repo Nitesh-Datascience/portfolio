@@ -1,6 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { projects } from '../content/projects.mjs';
+import { featuredStudy } from '../content/featured-study.mjs';
 
 const root = new URL('../', import.meta.url);
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -22,6 +23,10 @@ const cards = projects.map((project, index) => `<article class="project-card${pr
   </div>
 </article>`).join('\n');
 let html = await readFile(new URL('src/index.template.html', root), 'utf8');
+const chart = featuredStudy.charts[0];
+const chartButtons = featuredStudy.charts.map((item, index) => `<button type="button" data-chart="${escape(item.id)}" aria-pressed="${index === 0}" aria-controls="studyFigure">${escape(item.label)}</button>`).join('');
+html = html.replace('{{CHART_BUTTONS}}', chartButtons).replaceAll('{{CHART_SRC}}', escape(chart.src)).replaceAll('{{CHART_ALT}}', escape(chart.alt)).replace('{{CHART_CAPTION}}', escape(chart.caption));
 html = html.replace('{{PROJECTS}}', cards).replaceAll('{{PROJECT_COUNT}}', String(projects.length)).replaceAll('{{DEMO_COUNT}}', String(projects.filter(project => project.demo).length));
 await writeFile(new URL('index.html', root), html);
 console.log(`Built ${fileURLToPath(new URL('index.html', root))}: ${projects.length} projects, ${projects.filter(project => project.demo).length} demo links.`);
+

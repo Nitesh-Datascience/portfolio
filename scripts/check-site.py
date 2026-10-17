@@ -12,9 +12,15 @@ class Page(HTMLParser):
         self.ids, self.anchors, self.uses, self.files, self.labels, self.fields = [], [], [], [], [], []
         self.projects, self.demos, self.shares, self.h1, self.images = 0, 0, 0, 0, []
         self.external = []
+        self.aria_targets, self.chart_ids = [], []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        for field in ('aria-controls', 'aria-labelledby', 'aria-describedby'):
+            self.aria_targets.extend(a.get(field, '').split())
+        if 'data-chart' in a:
+            self.chart_ids.append(a['data-chart'])
+            assert a.get('aria-pressed') in ('true', 'false'), 'Chart control needs selected state'
         if 'id' in a:
             self.ids.append(a['id'])
         if tag == 'a':
@@ -49,6 +55,7 @@ page.feed(html)
 assert page.h1 == 1, 'Exactly one main heading is required'
 assert not [key for key, value in Counter(page.ids).items() if value > 1], 'Duplicate IDs'
 assert not [link for link in page.anchors + page.uses if link.startswith('#') and link[1:] not in page.ids], 'Broken local target'
+assert set(page.aria_targets) <= set(page.ids), 'Broken accessibility reference'
 assert not [filename for filename in page.files if not (ROOT / filename).is_file()], 'Missing local asset'
 assert set(page.fields) <= set(page.labels), 'Unlabelled input'
 assert all('noopener' in a.get('rel', '') for a in page.external), 'Unsafe external window'
@@ -56,9 +63,11 @@ assert all(a.get('alt') and a.get('width') and a.get('height') for a in page.ima
 assert page.projects == 13 and page.demos == 7, 'Unexpected project counts'
 assert page.shares == page.projects, 'Every project needs a share control'
 assert {'projectSort', 'githubConnection', 'githubSchedule', 'toggleAutoRefresh'} <= set(page.ids), 'Missing gallery/live controls'
+assert set(page.chart_ids) == {'demand', 'products', 'risk'}, 'Featured report controls are incomplete'
 assert '{{' not in html, 'Unresolved template token'
 assert 'prefers-reduced-motion' in (ROOT / 'styles.css').read_text(), 'Motion preference missing'
 assert 'aria-live="polite"' in html and 'Skip to content' in html
 ld_json = html.split('<script type="application/ld+json">')[1].split('</script>')[0]
 assert json.loads(ld_json)['name'] == 'Nitesh Kumar'
-print('PASS: static content, anchors, assets, labels, metadata, and 13 projects / 7 demos.')
+print('PASS: content, targets, assets, accessibility, three report figures, and 13 projects / 7 demos.')
+

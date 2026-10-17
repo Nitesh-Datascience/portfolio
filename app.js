@@ -1,6 +1,7 @@
+import { featuredStudy } from './content/featured-study.mjs?v=20261017.1';
 import { projects } from './content/projects.mjs';
-import { CACHE_KEY, EMAIL, createEmailDraft, fetchGitHubSnapshot, filterProjects, projectLink, projectStateURL, readProjectState, readSnapshot, sortProjects } from './portfolio-core.mjs?v=20261014.2';
-import { RefreshController } from './refresh-controller.mjs?v=20261014.2';
+import { CACHE_KEY, EMAIL, createEmailDraft, fetchGitHubSnapshot, filterProjects, projectLink, projectStateURL, readProjectState, readSnapshot, sortProjects } from './portfolio-core.mjs?v=20261017.1';
+import { RefreshController } from './refresh-controller.mjs?v=20261017.1';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -245,6 +246,23 @@ function initGitHub() {
   } else { viewed = true; controller.start(); }
 }
 
+
+function initFeaturedStudy() {
+  const buttons = $$('[data-chart]');
+  const image = $('#studyImage');
+  buttons.forEach(button => button.addEventListener('click', () => {
+    const chart = featuredStudy.charts.find(item => item.id === button.dataset.chart);
+    if (!chart) return;
+    image.src = chart.src; image.alt = chart.alt;
+    image.width = chart.width; image.height = chart.height;
+    $('#studyCaption').textContent = chart.caption;
+    $('#studyImageLink').href = chart.src;
+    $('#studyFullSize').href = chart.src;
+    buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+  }));
+  $('#studyChartControls').hidden = false;
+}
+
 function initContact() {
   const form = $('#contactForm');
   const status = $('#formStatus');
@@ -297,6 +315,8 @@ function initContact() {
 initTheme();
 initNavigation();
 initProjects();
+initFeaturedStudy();
 initGitHub();
 initContact();
 $('#currentYear').textContent = new Date().getFullYear();
+

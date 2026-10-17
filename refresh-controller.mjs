@@ -1,4 +1,4 @@
-import { CACHE_TTL } from './portfolio-core.mjs?v=20261014.2';
+import { CACHE_TTL } from './portfolio-core.mjs?v=20261017.1';
 
 // One refresh schedule for timers, manual requests, visibility, and connectivity.
 export class RefreshController {
@@ -64,3 +64,4 @@ export class RefreshController {
     } finally { state.pending = false; this.emit(); this.schedule(); }
   }
 }
+

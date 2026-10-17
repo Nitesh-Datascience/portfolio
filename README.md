@@ -2,6 +2,8 @@
 
 A responsive, buildless portfolio for GitHub Pages. Includes 13 project case studies, seven Streamlit demo links, category and keyword filters, sorting and shareable case studies, light and dark themes, résumé access, email-draft preparation, and public GitHub activity.
 
+The presentation includes a personal introduction, an interactive FORESIGHT report preview, a concise analytics workflow, and a link to the deployed tree portfolio.
+
 **Live site:** https://nitesh-datascience.github.io/portfolio/
 
 ## Local preview
@@ -22,6 +24,9 @@ Open `http://localhost:8000`. Serve the folder over HTTP; JavaScript modules do 
 | `src/index.template.html` | Profile, education, training, navigation, contact details, and SEO metadata |
 | `scripts/build.mjs` | Generates the root `index.html` and derives project/demo counts |
 | `styles.css` | Responsive layout, light/dark palettes, motion and print styles |
+| `presentation.css` | Portrait composition, typography, featured report, workflow, and portfolio collection |
+| `content/featured-study.mjs` | Report figure manifest, accessible descriptions, source paths, and original Git blob hashes |
+| `assets/` | Three unchanged original FORESIGHT report figures and source attribution |
 | `app.js` | Navigation, project filtering, theme, GitHub refresh, and contact interactions |
 | `portfolio-core.mjs` | Testable filtering, draft encoding, public API validation, and cache logic |
 | `refresh-controller.mjs` | One rate-aware schedule for manual/automatic refresh, pause, visibility, and connectivity |
@@ -61,3 +66,10 @@ Browser storage caches public results for up to 24 hours; saved data keeps its o
 Case-study results come from the linked repository documentation. FORESIGHT is a simulated engagement; evaluation results describe the supplied dataset. No client improvements or production integrations are implied. Demo URLs link to external Streamlit apps, which may be asleep or unavailable independently of this portfolio.
 
 Projects, résumé links, case studies, and social/contact links remain available without JavaScript. Search, theme switching, the draft helper, and GitHub refresh are progressive enhancements.
+
+## Featured report preview
+
+The three figures show historical weekly demand, leading products, and the inventory planning snapshot. Native buttons switch between the original report figures; full-size links remain available. The default figure is visible without JavaScript. These are analytical report figures, not screenshots of the deployed application. Source paths and hashes are documented in `assets/SOURCES.md`, and an automated check verifies that each PNG matches its source blob and declared dimensions.
+
+The model comparison remains explicitly labelled as a dataset holdout result from a simulated engagement. The planning grid depends on the source project's stated assumptions. The current portrait and résumé were preserved from the repository.
+
