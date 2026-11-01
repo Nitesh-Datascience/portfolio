@@ -1,38 +1,119 @@
 # Nitesh Kumar — Data Analyst Portfolio
 
-A responsive, buildless portfolio for GitHub Pages. Includes 13 project case studies, seven Streamlit demo links, category and keyword filters, sorting and shareable case studies, light and dark themes, résumé access, email-draft preparation, and public GitHub activity.
+<p align="center">
+  <img src="profile.jpg" alt="Nitesh Kumar" width="132" />
+</p>
 
-The presentation includes a personal introduction, an interactive FORESIGHT report preview, a concise analytics workflow, and a link to the deployed tree portfolio.
+<h3 align="center">DATA ANALYST · PYTHON · SQL · EXCEL · POWER BI · AI & ML</h3>
 
-**Live site:** https://nitesh-datascience.github.io/portfolio/
+<p align="center">
+  Turning raw data into clear insights, interactive dashboards, and practical machine-learning solutions.
+</p>
 
-## Local preview
+<p align="center">
+  <a href="https://nitesh-datascience.github.io/portfolio/"><strong>🌐 View Live Portfolio</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://www.linkedin.com/in/niteshkumar-codlytic/">LinkedIn</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/Nitesh-Datascience">GitHub</a>
+</p>
 
-Use Python 3 and Node.js 18 or later for the optional content build and checks. The published website needs no Node server or installed packages.
+---
 
-```bash
-python -m http.server 8000
-```
+## 🚀 Overview
 
-Open `http://localhost:8000`. Serve the folder over HTTP; JavaScript modules do not reliably load from a `file://` URL.
+Welcome to my personal data analytics portfolio. I’m **Nitesh Kumar**, an aspiring Data Analyst interested in transforming complex datasets into meaningful business insights through data analysis, visualization, and predictive modelling.
 
-## Update the portfolio
+This repository contains the source for my responsive, buildless portfolio website. It brings together **13 project case studies**, live application demos, an interactive featured-report preview, and a live view of public GitHub activity.
 
-| File | Purpose |
+**Live website:** https://nitesh-datascience.github.io/portfolio/
+
+## 🛠️ Tech Stack
+
+| Area | Technologies |
 | --- | --- |
-| `content/projects.mjs` | Project descriptions, case studies, source repositories, and demo URLs |
-| `src/index.template.html` | Profile, education, training, navigation, contact details, and SEO metadata |
-| `scripts/build.mjs` | Generates the root `index.html` and derives project/demo counts |
-| `styles.css` | Responsive layout, light/dark palettes, motion and print styles |
-| `presentation.css` | Portrait composition, typography, featured report, workflow, and portfolio collection |
-| `content/featured-study.mjs` | Report figure manifest, accessible descriptions, source paths, and original Git blob hashes |
-| `assets/` | Three unchanged original FORESIGHT report figures and source attribution |
-| `app.js` | Navigation, project filtering, theme, GitHub refresh, and contact interactions |
-| `portfolio-core.mjs` | Testable filtering, draft encoding, public API validation, and cache logic |
-| `refresh-controller.mjs` | One rate-aware schedule for manual/automatic refresh, pause, visibility, and connectivity |
-| `profile.jpg`, `resume.pdf` | Existing profile photo and downloadable résumé |
+| Structure | HTML5 |
+| Styling & responsive UI | CSS3 |
+| Interactivity | JavaScript (ES modules) |
+| Data & analytics | Python, SQL, Excel |
+| BI & visualization | Power BI, interactive charts and report visuals |
+| Machine learning | Scikit-learn and predictive modelling |
+| Deployment | GitHub Pages |
+| Live app demos | Streamlit |
 
-After editing the project data or HTML template, regenerate the committed page:
+This portfolio is intentionally buildless for publishing: GitHub Pages serves the root website directly without requiring a Node build step or package installation.
+
+## ✨ Key Features
+
+- **Responsive portfolio:** Layout adapts to desktop, tablet, and mobile screens.
+- **Project directory:** 13 curated project case studies with descriptions, tools, source links, and demo links.
+- **Live demo discovery:** Filter projects by category and live-demo availability, search by keywords, and sort the collection.
+- **Shareable project links:** Project selections can be opened directly through URL parameters and project anchors.
+- **Interactive report preview:** Switch between the original featured FORESIGHT report figures.
+- **Light and dark themes:** Choose a comfortable viewing theme.
+- **Live GitHub activity:** View public profile totals and recent public repositories, with refresh and pause controls.
+- **Contact actions:** Prepare an email draft or copy a message; the site does not collect messages on a backend.
+- **Accessible progressive enhancement:** Core project and contact content remains available even when JavaScript is disabled.
+
+## 📊 Featured Projects
+
+Explore the complete collection and project case studies on the live website:
+
+**[Open the Project Directory →](https://nitesh-datascience.github.io/portfolio/#projects)**
+
+Selected deployed applications:
+
+| Project | Live demo |
+| --- | --- |
+| Care Transition Efficiency Analytics | [Launch app](https://care-transition-efficiency-analytics-knfy8ljtaxyn8ti74zy5ng.streamlit.app/) |
+| Customer Churn Prediction | [Launch app](https://customerchurnprediction-fkpbjib3muyvrhmgchkurb.streamlit.app/) |
+| EduPro — Student Segmentation & Course Recommendation | [Launch app](https://eduproproject-jkoe6q6tctk5xafa6ggog.streamlit.app/) |
+| Financial Fraud Detection | [Launch app](https://financialfrauddetection-6geni2xkrt3dc8ry2infsf.streamlit.app/) |
+
+The portfolio links to additional projects and demos. External Streamlit applications may occasionally sleep or be unavailable independently of this website.
+
+## 💻 Run Locally
+
+You can preview the website with Python 3:
+
+1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/Nitesh-Datascience/portfolio.git
+   cd portfolio
+   ```
+
+2. Start a local web server:
+
+   ```bash
+   python -m http.server 8000
+   ```
+
+3. Open **http://localhost:8000** in your browser.
+
+Serve the folder over HTTP rather than opening `index.html` with a `file://` URL, because browser JavaScript modules may not load reliably from a local file.
+
+## 🧰 Project Structure
+
+| File / folder | Purpose |
+| --- | --- |
+| `index.html` | Generated root page published by GitHub Pages |
+| `src/index.template.html` | Main page template, profile details, navigation, and metadata |
+| `content/projects.mjs` | Project descriptions, case studies, source repositories, and demo URLs |
+| `content/featured-study.mjs` | Featured report figure manifest and source attribution |
+| `styles.css` | Responsive layout, themes, motion, and print styles |
+| `presentation.css` | Portfolio presentation, typography, report preview, and workflow |
+| `app.js` | Navigation, filtering, themes, GitHub refresh, and contact interactions |
+| `portfolio-core.mjs` | Reusable filtering, draft encoding, API validation, and cache logic |
+| `refresh-controller.mjs` | Rate-aware refresh scheduling and page-visibility handling |
+| `scripts/build.mjs` | Generates the published root `index.html` |
+| `tests/` | Automated tests |
+| `assets/` | Featured report figures and source documentation |
+| `profile.jpg`, `resume.pdf` | Profile photo and résumé |
+
+## 🔧 Development & Validation
+
+After changing project data or the HTML template, rebuild the published page and run the checks:
 
 ```bash
 node scripts/build.mjs
@@ -41,35 +122,23 @@ python scripts/check-site.py
 node --check app.js
 ```
 
-Commit both the edited source and generated `index.html`. The root file is the published page; GitHub Pages does not need to run the build script. Keep GitHub Pages configured to publish from `main` and the repository root. A push to `main` triggers the existing Pages build and deployment.
+Commit both the edited source files and the generated root `index.html`. GitHub Pages publishes the root file from the `main` branch; it does not run the build script itself.
 
-When changing browser modules, update the asset revision in the template and changed module imports together. This prevents a cached older dependency from breaking a newly deployed interface.
+## 📡 Public GitHub Activity
 
-## Project discovery and sharing
+The activity section reads public GitHub profile and repository information in the visitor’s browser. It uses no personal access token and does not expose private repository data. Refreshing is rate-aware, pauses when the page is hidden or offline, and provides manual refresh and pause/resume controls.
 
-Visitors can filter to live demos, search by project or tool, and sort by featured order, name, or demo availability. The selected category, query, and sorting are retained in URL parameters, so a filtered view can be bookmarked or shared.
+This is a periodic public-activity refresh, not a continuous event stream or application-uptime monitor.
 
-Each project has a Copy link button. A direct link such as `#project-water` reveals the project, opens its case study, and moves keyboard focus to it even when it was outside the initial eight cards. Clipboard failures provide a selectable URL instead.
+## 📬 Contact
 
-## Live GitHub data
+- **LinkedIn:** [Nitesh Kumar](https://www.linkedin.com/in/niteshkumar-codlytic)
+- **GitHub:** [@Nitesh-Datascience](https://github.com/Nitesh-Datascience)
+- **Portfolio:** [nitesh-datascience.github.io/portfolio](https://nitesh-datascience.github.io/portfolio/)
+- **Email:** [ns0762005@gmail.com](mailto:ns0762005@gmail.com)
 
-When the activity section is first viewed, the browser requests the public profile and up to 100 public repositories, sorted by last push. It displays account totals and up to three recent original, unarchived repositories. No tokens or private repository data are used. New repositories appear in this activity feed; the selected case-study gallery remains curated in `content/projects.mjs`.
+---
 
-Data refreshes every five minutes while the document is visible, with Pause/Resume and Refresh now controls. The panel shows the data timestamp, connection state, and next scheduled update. Hidden pages, offline mode, and pause stop automatic requests; reconnecting or returning resumes due work. Manual requests are throttled to one per minute, and overlapping refreshes are prevented.
-
-Browser storage caches public results for up to 24 hours; saved data keeps its original timestamp when GitHub is unavailable or rate-limited. Storage failures are handled. Retry timing respects GitHub’s `Retry-After` and exhausted-quota `X-RateLimit-Reset` headers, with increasing delays for repeated failures. The profile and repository reads run sequentially. See [GitHub API best practices](https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api). This is periodic public activity refresh, not a continuous event stream or app uptime monitoring.
-
-## Contact and content
-
-“Prepare email” opens a reviewed draft in the visitor’s email app. “Copy message” offers an alternative, including a selectable draft when clipboard access is unavailable. The page does not have a message-collection backend. Existing email, LinkedIn, GitHub, photo, and résumé are preserved.
-
-Case-study results come from the linked repository documentation. FORESIGHT is a simulated engagement; evaluation results describe the supplied dataset. No client improvements or production integrations are implied. Demo URLs link to external Streamlit apps, which may be asleep or unavailable independently of this portfolio.
-
-Projects, résumé links, case studies, and social/contact links remain available without JavaScript. Search, theme switching, the draft helper, and GitHub refresh are progressive enhancements.
-
-## Featured report preview
-
-The three figures show historical weekly demand, leading products, and the inventory planning snapshot. Native buttons switch between the original report figures; full-size links remain available. The default figure is visible without JavaScript. These are analytical report figures, not screenshots of the deployed application. Source paths and hashes are documented in `assets/SOURCES.md`, and an automated check verifies that each PNG matches its source blob and declared dimensions.
-
-The model comparison remains explicitly labelled as a dataset holdout result from a simulated engagement. The planning grid depends on the source project's stated assumptions. The current portrait and résumé were preserved from the repository.
-
+<p align="center">
+  Designed and developed with ❤️ by <strong>Nitesh Kumar</strong>
+</p>
