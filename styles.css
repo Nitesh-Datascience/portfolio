@@ -591,3 +591,42 @@ input::placeholder, textarea::placeholder { color: var(--subtle); opacity: 1; }
   .skills-layout, .about-layout, .contact-layout { gap: 35px; }
   .site-footer { margin-top: 15px; }
 }
+
+
+/* Interactive portfolio experience inspired by the reference layout */
+.immersive-section { background: linear-gradient(180deg, transparent, var(--accent-soft) 48%, transparent); }
+.lab-grid { display:grid; grid-template-columns:1.08fr .92fr; gap:22px; margin-top:44px; }
+.skill-orbit-panel,.lab-project-panel { min-width:0; overflow:hidden; border:1px solid var(--border); border-radius:14px; background:var(--surface); box-shadow:var(--shadow); }
+.lab-panel-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; min-height:64px; padding:0 24px; border-bottom:1px solid var(--border); color:var(--muted); font-size:10px; font-weight:700; letter-spacing:.15em; }
+.live-indicator { color:var(--accent); font-size:9px; }
+.live-indicator::before { content:""; display:inline-block; width:6px; height:6px; margin-right:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent); }
+#skillCanvas { display:block; width:100%; height:auto; aspect-ratio:900/520; background:radial-gradient(ellipse at 50% 48%,var(--accent-soft),transparent 68%); touch-action:pan-y; cursor:grab; }
+#skillCanvas:active { cursor:grabbing; }
+.lab-hint { padding:0 22px; color:var(--subtle); font-size:10px; text-align:center; }
+.skill-fallback { display:flex; flex-wrap:wrap; gap:8px; list-style:none; padding:0 22px 20px; margin:0; }
+.skill-fallback li { padding:5px 10px; border:1px solid var(--border); border-radius:30px; color:var(--muted); font-size:10px; }
+.carousel-controls { display:flex; gap:8px; }
+.carousel-controls button { width:34px; height:34px; border:1px solid var(--border); border-radius:50%; background:transparent; color:var(--text); font-size:17px; }
+.carousel-controls button:hover { border-color:var(--accent); color:var(--accent); }
+.spotlight-viewport { overflow:hidden; min-height:310px; }
+.spotlight-track { display:flex; transition:transform .5s cubic-bezier(.2,.7,.2,1); will-change:transform; }
+.spotlight-card { flex:0 0 100%; min-width:0; padding:28px; display:flex; flex-direction:column; min-height:310px; }
+.spotlight-kicker { color:var(--accent); font-size:10px; letter-spacing:.15em; font-weight:700; }
+.spotlight-card h3 { margin:20px 0 10px; font-size:clamp(22px,2.5vw,31px); letter-spacing:-.05em; }
+.spotlight-card p { color:var(--muted); font-size:13px; line-height:1.8; }
+.spotlight-tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:auto; padding:12px 0 20px; }
+.spotlight-tags span { border:1px solid var(--border); padding:4px 9px; border-radius:30px; color:var(--subtle); font-size:10px; }
+.spotlight-links { display:flex; flex-wrap:wrap; gap:18px; font-size:11px; font-weight:700; }
+.spotlight-links a:hover { color:var(--accent); }
+.spotlight-footer { display:flex; justify-content:space-between; padding:14px 24px; border-top:1px solid var(--border); color:var(--subtle); font-size:9px; letter-spacing:.14em; }
+.learning-timeline { display:grid; grid-template-columns:.7fr 1.3fr; gap:35px; margin-top:62px; padding:30px 0 0; border-top:1px solid var(--border); }
+.timeline-heading h3 { font:600 clamp(22px,3vw,32px)/1.2 'Manrope',sans-serif; letter-spacing:-.05em; }
+.journey-track { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; list-style:none; padding:0; margin:0; }
+.journey-track li { position:relative; padding:18px 0 0; border-top:2px solid var(--border); }
+.journey-track li::before { content:""; position:absolute; width:8px; height:8px; top:-5px; left:0; border-radius:50%; background:var(--accent); box-shadow:0 0 0 5px var(--bg); }
+.journey-track li span { display:block; color:var(--accent); font-size:9px; letter-spacing:.14em; margin-bottom:9px; }
+.journey-track li strong { display:block; font-size:12px; line-height:1.5; }
+.journey-track li small { display:block; margin-top:7px; color:var(--subtle); font-size:10px; line-height:1.6; }
+@media(max-width:850px) { .lab-grid { grid-template-columns:1fr; } .learning-timeline { grid-template-columns:1fr; gap:12px; } }
+@media(max-width:600px) { .lab-panel-heading { padding-inline:17px; } .spotlight-card { padding:22px; } .spotlight-viewport,.spotlight-card { min-height:295px; } .journey-track { grid-template-columns:1fr 1fr; row-gap:22px; } .lab-hint { font-size:9px; } }
+@media(prefers-reduced-motion:reduce) { .spotlight-track { transition:none; } }
