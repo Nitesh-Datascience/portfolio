@@ -257,3 +257,20 @@
   .workflow-steps > li { border: 0; padding: 0; }
   .contact-form-wrap { display: none; }
 }
+
+
+/* Interactive 3D-inspired skill field — adapted for the lightweight canvas portfolio. */
+.skill-orbit-panel { position: relative; overflow: hidden; isolation: isolate; }
+.skill-orbit-panel::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 48%, rgba(141,232,206,.10), transparent 62%),
+              radial-gradient(circle at 18% 18%, rgba(168,162,255,.09), transparent 35%);
+}
+#skillCanvas { display: block; width: 100%; height: auto; min-height: 260px; touch-action: pan-y; }
+.lab-hint { position: relative; z-index: 1; }
+.spotlight-card { transform: translateZ(0); }
+.spotlight-card h3 { text-wrap: balance; }
+@media (prefers-reduced-motion: reduce) {
+  #skillCanvas { animation: none !important; }
+  .spotlight-track { transition: none !important; }
+}
