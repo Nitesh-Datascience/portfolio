@@ -12,56 +12,123 @@ function initInteractiveLab() {
   const track = $('#spotlightTrack');
   if (!canvas || !track) return;
   const ctx = canvas.getContext('2d');
+  if (!ctx) return;
   const skills = ['PYTHON','SQL','POWER BI','EXCEL','MACHINE LEARNING','PANDAS','STATISTICS','DATA STORYTELLING'];
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let width = 900, height = 520, frame = 0, pointer = { x: -1000, y: -1000, active: false };
-  const colors = ['#8de8ce','#a8a2ff','#f2c27c','#9fc7ff','#f09ac7'];
-  const balls = skills.map((label,i)=>({label,x:130+(i%4)*205+(Math.random()*34-17),y:110+Math.floor(i/4)*245,vx:(Math.random()-.5)*1.4,vy:(Math.random()-.5)*1.1,r:42+(i%3)*5,color:colors[i%colors.length],depth:.8+(i%4)*.12}));
-  function resize() { const box=canvas.getBoundingClientRect(); const dpr=Math.min(window.devicePixelRatio||1,2); width=900;height=520;canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0); }
-  function draw() {
-    ctx.clearRect(0,0,width,height);
-    ctx.save();
-    balls.forEach((b,i)=>{
-      if(!reduced){
-        b.vy+=.018*b.depth; b.x+=b.vx; b.y+=b.vy;
-        if(b.x<b.r||b.x>width-b.r){b.vx*=-.92;b.x=Math.max(b.r,Math.min(width-b.r,b.x));}
-        if(b.y<b.r||b.y>height-b.r){b.vy*=-.9;b.y=Math.max(b.r,Math.min(height-b.r,b.y));}
-        if(pointer.active){const dx=b.x-pointer.x,dy=b.y-pointer.y,d=Math.hypot(dx,dy)||1;if(d<150){const force=(150-d)/150*.11;b.vx+=dx/d*force;b.vy+=dy/d*force;}}
-        b.vx*=.999;b.vy*=.999;
-      }
-      const glow=ctx.createRadialGradient(b.x-b.r*.35,b.y-b.r*.4,2,b.x,b.y,b.r*1.35);
-      glow.addColorStop(0,b.color+'dd');glow.addColorStop(.5,b.color+'88');glow.addColorStop(1,b.color+'08');
-      ctx.beginPath();ctx.arc(b.x,b.y,b.r*1.28,0,Math.PI*2);ctx.fillStyle=glow;ctx.fill();
-      ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fillStyle='#111c27';ctx.fill();ctx.lineWidth=1.5;ctx.strokeStyle=b.color+'bb';ctx.stroke();
-      ctx.beginPath();ctx.arc(b.x-b.r*.28,b.y-b.r*.3,b.r*.58,Math.PI,Math.PI*1.7);ctx.strokeStyle='#ffffff35';ctx.lineWidth=2;ctx.stroke();
-      ctx.fillStyle='#edf3f6';ctx.font='700 '+(b.label.length>13?10:12)+'px DM Sans, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.label,b.x,b.y);
-    });
-    ctx.restore();
-    if(!reduced) frame=requestAnimationFrame(draw);
+  const palette = ['#8de8ce','#a8a2ff','#f2c27c','#9fc7ff','#f09ac7'];
+  let width = 900, height = 520, frame = 0, running = false;
+  const pointer = { x: -1000, y: -1000, active: false };
+  const balls = skills.map((label,i)=>({
+    label, x: 130+(i%4)*205, y: 105+Math.floor(i/4)*245,
+    vx: (i%2 ? -1 : 1) * (.35 + (i%3)*.12), vy: .15+(i%4)*.08,
+    r: 40+(i%3)*5, color: palette[i%palette.length], depth: .82+(i%4)*.09,
+    phase: i*.9, mass: 1+(i%3)*.18
+  }));
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = 900; height = 520;
+    canvas.width = Math.round(width*dpr); canvas.height = Math.round(height*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    canvas.style.aspectRatio = '900 / 520';
+    if (reduced) draw(performance.now());
   }
-  function position(event){const rect=canvas.getBoundingClientRect();pointer.x=(event.clientX-rect.left)/rect.width*width;pointer.y=(event.clientY-rect.top)/rect.height*height;}
+  function draw(now = 0) {
+    ctx.clearRect(0,0,width,height);
+    // Subtle orbital paths give the skill field a dimensional, data-lab feel.
+    ctx.save();
+    ctx.strokeStyle = '#ffffff0b'; ctx.lineWidth = 1;
+    for (let i=0;i<5;i++) {
+      ctx.beginPath(); ctx.ellipse(450,260,115+i*83,54+i*38,-.16,0,Math.PI*2); ctx.stroke();
+    }
+    ctx.restore();
+    balls.forEach((b,i)=>{
+      if (!reduced) {
+        b.phase += .008*b.depth;
+        b.vy += .006*b.depth;
+        b.x += b.vx; b.y += b.vy;
+        // Soft sphere-to-sphere collisions keep the motion lively without jitter.
+        for (let j=i+1;j<balls.length;j++) {
+          const other=balls[j], dx=other.x-b.x, dy=other.y-b.y, dist=Math.hypot(dx,dy)||1;
+          const min=b.r+other.r+13;
+          if (dist<min) {
+            const nx=dx/dist, ny=dy/dist, push=(min-dist)*.018;
+            b.vx-=nx*push/ b.mass; b.vy-=ny*push/b.mass;
+            other.vx+=nx*push/other.mass; other.vy+=ny*push/other.mass;
+          }
+        }
+        if (pointer.active) {
+          const dx=b.x-pointer.x, dy=b.y-pointer.y, dist=Math.hypot(dx,dy)||1;
+          if (dist<175) { const force=(175-dist)/175*.16; b.vx+=dx/dist*force; b.vy+=dy/dist*force; }
+        }
+        b.vx += Math.sin(b.phase)*.0015;
+        b.vx *= .997; b.vy *= .997;
+        if (b.x<b.r+5 || b.x>width-b.r-5) { b.vx *= -.88; b.x=Math.max(b.r+5,Math.min(width-b.r-5,b.x)); }
+        if (b.y<b.r+5 || b.y>height-b.r-5) { b.vy *= -.86; b.y=Math.max(b.r+5,Math.min(height-b.r-5,b.y)); }
+      }
+      const radius=b.r*(.96+Math.sin(b.phase)*.025);
+      const shadow=ctx.createRadialGradient(b.x,b.y+radius*.72,2,b.x,b.y+radius*.72,radius*1.3);
+      shadow.addColorStop(0,'#00000048'); shadow.addColorStop(1,'#00000000');
+      ctx.beginPath(); ctx.ellipse(b.x,b.y+radius*.78,radius*1.08,radius*.36,0,0,Math.PI*2); ctx.fillStyle=shadow; ctx.fill();
+      const glow=ctx.createRadialGradient(b.x-radius*.42,b.y-radius*.48,2,b.x,b.y,radius*1.42);
+      glow.addColorStop(0,b.color+'ee'); glow.addColorStop(.48,b.color+'8a'); glow.addColorStop(1,b.color+'00');
+      ctx.beginPath(); ctx.arc(b.x,b.y,radius*1.38,0,Math.PI*2); ctx.fillStyle=glow; ctx.fill();
+      const sphere=ctx.createRadialGradient(b.x-radius*.38,b.y-radius*.48,2,b.x+radius*.1,b.y+radius*.1,radius*1.2);
+      sphere.addColorStop(0,'#52616f'); sphere.addColorStop(.24,'#202f3e'); sphere.addColorStop(.72,'#111c29'); sphere.addColorStop(1,'#080f18');
+      ctx.beginPath(); ctx.arc(b.x,b.y,radius,0,Math.PI*2); ctx.fillStyle=sphere; ctx.fill();
+      ctx.lineWidth=1.5; ctx.strokeStyle=b.color+'c8'; ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(b.x-radius*.18,b.y-radius*.28,radius*.52,radius*.22,-.55,Math.PI,Math.PI*2);
+      ctx.strokeStyle='#ffffff55'; ctx.lineWidth=2; ctx.stroke();
+      ctx.fillStyle='#f4f7fb'; ctx.font='700 '+(b.label.length>13?10:12)+'px DM Sans, sans-serif';
+      ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(b.label,b.x,b.y);
+    });
+    if (!reduced && running) frame=requestAnimationFrame(draw);
+  }
+  function position(event) {
+    const rect=canvas.getBoundingClientRect();
+    pointer.x=(event.clientX-rect.left)/rect.width*width;
+    pointer.y=(event.clientY-rect.top)/rect.height*height;
+  }
+  function start() { if (!reduced && !running) { running=true; frame=requestAnimationFrame(draw); } }
+  function stop() { running=false; if (frame) cancelAnimationFrame(frame); frame=0; }
   canvas.addEventListener('pointermove',e=>{position(e);pointer.active=true;});
   canvas.addEventListener('pointerleave',()=>{pointer.active=false;});
-  canvas.addEventListener('pointerdown',e=>{position(e);balls.forEach(b=>{b.vx+=(Math.random()-.5)*7;b.vy-=2+Math.random()*3;});if(reduced)draw();});
+  canvas.addEventListener('pointerdown',e=>{
+    position(e);
+    balls.forEach(b=>{const dx=b.x-pointer.x,dy=b.y-pointer.y,d=Math.hypot(dx,dy)||1;if(d<260){b.vx+=dx/d*3.2;b.vy+=dy/d*3.2-1.4;}});
+    if (reduced) draw(performance.now());
+  });
   const spotlightIds=['foresight','edupro','fraud','churn'];
   const spotlight=spotlightIds.map(id=>projects.find(p=>p.id===id)).filter(Boolean);
   let active=0;
   spotlight.forEach((p,i)=>{
-    const card=document.createElement('article');card.className='spotlight-card';
-    const kicker=document.createElement('span');kicker.className='spotlight-kicker';kicker.textContent=String(i+1).padStart(2,'0')+' / '+p.categoryLabel.toUpperCase();
-    const title=document.createElement('h3');title.textContent=p.title;
-    const desc=document.createElement('p');desc.textContent=p.description;
-    const tags=document.createElement('div');tags.className='spotlight-tags';p.tags.forEach(tag=>{const el=document.createElement('span');el.textContent=tag;tags.append(el);});
-    const links=document.createElement('div');links.className='spotlight-links';
-    const source=document.createElement('a');source.href='https://github.com/Nitesh-Datascience/'+p.repo;source.target='_blank';source.rel='noopener noreferrer';source.textContent='VIEW SOURCE ↗';links.append(source);
+    const card=document.createElement('article'); card.className='spotlight-card';
+    const kicker=document.createElement('span'); kicker.className='spotlight-kicker'; kicker.textContent=String(i+1).padStart(2,'0')+' / '+p.categoryLabel.toUpperCase();
+    const title=document.createElement('h3'); title.textContent=p.title;
+    const desc=document.createElement('p'); desc.textContent=p.description;
+    const tags=document.createElement('div'); tags.className='spotlight-tags';
+    p.tags.forEach(tag=>{const el=document.createElement('span');el.textContent=tag;tags.append(el);});
+    const links=document.createElement('div'); links.className='spotlight-links';
+    const source=document.createElement('a'); source.href='https://github.com/Nitesh-Datascience/'+p.repo; source.target='_blank'; source.rel='noopener noreferrer'; source.textContent='VIEW SOURCE ↗'; links.append(source);
     if(p.demo){const demo=document.createElement('a');demo.href=p.demo;demo.target='_blank';demo.rel='noopener noreferrer';demo.textContent='LIVE DEMO ↗';links.append(demo);}
-    card.append(kicker,title,desc,tags,links);track.append(card);
+    card.append(kicker,title,desc,tags,links); track.append(card);
   });
-  function show(index){active=(index+spotlight.length)%spotlight.length;track.style.transform='translateX(-'+active*100+'%)';$('#spotlightCount').textContent=String(active+1).padStart(2,'0')+' / '+String(spotlight.length).padStart(2,'0');}
-  $('#spotlightPrev').addEventListener('click',()=>show(active-1));
-  $('#spotlightNext').addEventListener('click',()=>show(active+1));
-  resize();draw();show(0);
-  if('IntersectionObserver'in window&&!reduced){const observer=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){if(!frame)draw();}else{cancelAnimationFrame(frame);frame=0;}},{threshold:.08});observer.observe(canvas);}
+  function show(index) {
+    if (!spotlight.length) return;
+    active=(index+spotlight.length)%spotlight.length;
+    track.style.transform='translateX(-'+active*100+'%)';
+    const count=$('#spotlightCount');
+    if (count) count.textContent=String(active+1).padStart(2,'0')+' / '+String(spotlight.length).padStart(2,'0');
+  }
+  $('#spotlightPrev')?.addEventListener('click',()=>show(active-1));
+  $('#spotlightNext')?.addEventListener('click',()=>show(active+1));
+  resize(); show(0);
+  if ('IntersectionObserver' in window && !reduced) {
+    const observer=new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting) start(); else stop();
+    },{threshold:.08});
+    observer.observe(canvas);
+  } else start();
   window.addEventListener('resize',resize,{passive:true});
 }
 
